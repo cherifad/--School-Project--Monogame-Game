@@ -1,0 +1,54 @@
+{
+  "textureAtlas": {
+    "texture": "test.png",
+    "regionWidth": 55,
+    "regionHeight": 64
+  },
+  "cycles": {
+    "walkLeft": {
+      "frames": [ 3, 4 ],
+      "isLooping": false,
+      "frameDuration": 0.07
+    },
+    "walkRight": {
+      "frames": [ 5, 6 ],
+      "isLooping": false,
+      "frameDuration": 0.07
+    },
+    "hitRight": {
+      "frames": [  7 ],
+      "isLooping": false,
+      "frameDuration": 0.5
+    },
+    "hitLeft": {
+      "frames": [ 8 ],
+      "isLooping": false,
+      "frameDuration": 0.5
+    },
+    "jumpLeft": {
+      "frames": [ 2, 1 ],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "jumpRight": {
+      "frames": [ 9, 10 ],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "idleLeft": {
+      "frames": [ 0 ],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "climb": {
+      "frames": [ 11, 12 ],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "idleRight": {
+      "frames": [ 5 ],
+      "isLooping": false,
+      "frameDuration": 0.2
+    }
+  }
+}
