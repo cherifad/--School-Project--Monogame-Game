@@ -18,13 +18,13 @@ namespace Jeux.Screen
     {
         private Game1 _game1; // pour récupérer la fenêtre de jeu principale
 
-        private TiledMap _map;
+        private List<TiledMap> _map = new List<TiledMap>(); //1, _map2, _map3, _map4, _map5;
 
-        private TiledMapRenderer _renduMap;
+        private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>();
 
         private int _mapEnCour;
 
-        private List<float> _positions;
+        private List<Rectangle> _collsions = new List<Rectangle>();
 
         private OrthographicCamera _camera;
 
@@ -41,6 +41,8 @@ namespace Jeux.Screen
         bool jump = false, ecran;
 
         private Joueur _joueur;
+
+        private bool _collisionRectangle = true;
 
         // private TypeCollision _collision;
 
@@ -70,48 +72,73 @@ namespace Jeux.Screen
 
             _game1.IsMouseVisible = false;
 
+            _mapEnCour = 1;
+
             base.Initialize();
 
         }
         public override void LoadContent()
         {
 
-          //  for (int i = 0; i < 1; i++)
-          //  {
-                _map = Content.Load<TiledMap>($"map/1Eta");
-                _renduMap = new TiledMapRenderer(GraphicsDevice, _map);
-            //}
-            
-           // _joueur.Create(_game1);            
+          for (int i = 0; i < 5; i++)
+           {
+                _map.Add(Content.Load<TiledMap>($"map/{i + 1}Eta"));
+                _renduMap.Add(new TiledMapRenderer(GraphicsDevice, _map[i]));
+           }
+
+
+          
+           
+
+            // _joueur.Create(_game1);            
 
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
+
+            if (_collisionRectangle)
+            {
+                for (int i = 0; i < _map[_mapEnCour].ObjectLayers[0].Objects.Length; i++)
+                {
+                    _collsions.Add(new Rectangle((int)_map[_mapEnCour].ObjectLayers[0].Objects[i].Position.X,
+                                                  (int)_map[_mapEnCour].ObjectLayers[0].Objects[i].Position.Y,
+                                                  (int)_map[_mapEnCour].ObjectLayers[0].Objects[i].Size.Width,
+                                                  (int)_map[_mapEnCour].ObjectLayers[0].Objects[i].Size.Height));
+                }
+
+                _collisionRectangle = false;
+            }
+
+            Rectangle perso = new Rectangle((int)_game1.PositionPerso.X, (int)_game1.PositionPerso.Y, _game1.Perso.TextureRegion.Width,
+                 _game1.Perso.TextureRegion.Height);
+
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             float walkSpeed = elapsedTime * 300, walkSpeedVirtuel = elapsedTime * 300;
 
             KeyboardState keyboardState = Keyboard.GetState();
-            
+
             Vector2 deplacement = Vector2.Zero;
 
             Vector2 positionVirtuelle = Vector2.Zero;
 
+            _mapEnCour = 0;
+
             /*for (int i = 0; i < 5; i++)
             {
-                _positions[i] = (_game1.PositionPerso.X / _map.TileWidth);
+                _positions[i] = (_game1.PositionPerso.X / _map[_mapEnCour].TileWidth);
             }*/
-            
-            float positionColonnePerso = (_game1.PositionPerso.X / _map.TileWidth);
 
-            float positionLignePerso = ((_game1.PositionPerso.Y + _game1.Perso.TextureRegion.Height/2) / _map.TileHeight);
+            float positionColonnePerso = (_game1.PositionPerso.X / _map[_mapEnCour].TileWidth);
+
+            float positionLignePerso = ((_game1.PositionPerso.Y + _game1.Perso.TextureRegion.Height / 2) / _map[_mapEnCour].TileHeight);
 
             velocity.X = 0;
 
-            bool toucheBordFenetre = false; 
-            
+            bool toucheBordFenetre = false;
+
             ecran = false;
 
             //animation idle
@@ -140,7 +167,7 @@ namespace Jeux.Screen
             {
                 _game1.Animation = TypeAnimation.climb;
                 toucheBordFenetre = _game1.PositionPerso.Y + _game1.Perso.TextureRegion.Height / 2 >= GraphicsDevice.Viewport.Height;
-               //Collision = IsCollision(positionColonnePerso, positionLignePerso + 1);
+                //Collision = IsCollision(positionColonnePerso, positionLignePerso + 1);
                 deplacement = Vector2.UnitY;
             }//touche de droite + pas de saut
             else if (keyboardState.IsKeyDown(Keys.Left) && jump)
@@ -155,7 +182,7 @@ namespace Jeux.Screen
             else if (keyboardState.IsKeyDown(Keys.Right) && jump)
             {
                 _game1.Animation = TypeAnimation.walkRight;
-                toucheBordFenetre = _game1.PositionPerso.X + _game1.Perso.TextureRegion.Width / 2 >= GraphicsDevice.Viewport.Width ;
+                toucheBordFenetre = _game1.PositionPerso.X + _game1.Perso.TextureRegion.Width / 2 >= GraphicsDevice.Viewport.Width;
                 //Collision = IsCollision(positionColonnePerso + 1, positionLignePerso);
                 deplacement = Vector2.UnitX;
                 idleRight = true;
@@ -167,21 +194,21 @@ namespace Jeux.Screen
                 _game1.Animation = TypeAnimation.jumpLeft;
                 velocity.Y = -100f;
             }
-            else if(keyboardState.IsKeyDown(Keys.X))
+            else if (keyboardState.IsKeyDown(Keys.X))
             {
                 if (idleRight) _game1.Animation = TypeAnimation.hitRight;
                 else _game1.Animation = TypeAnimation.hitLeft;
             }
 
-          /* // if (IsCollision(positionColonnePerso + 1, positionLignePerso, "sol"))
-            {
-                deplacement = Vector2.Zero;
-            }*/
+            /* // if (IsCollision(positionColonnePerso + 1, positionLignePerso, "sol"))
+              {
+                  deplacement = Vector2.Zero;
+              }*/
 
             //deplacement
-            if (IsCollision(positionColonnePerso, positionLignePerso, "sol") 
-                || !toucheBordFenetre 
-                || IsCollision(positionColonnePerso, positionLignePerso -1, "echelles")
+            if (IsCollision(positionColonnePerso, positionLignePerso, "sol")
+                || !toucheBordFenetre
+                || IsCollision(positionColonnePerso, positionLignePerso - 1, "echelles")
                 || IsCollision(positionColonnePerso, positionLignePerso + 1, "echelles"))
             {
                 _game1.PositionPerso += walkSpeed * deplacement;
@@ -190,8 +217,8 @@ namespace Jeux.Screen
 
 
             // gravité si pas en colision avec le sol et pas de saut
-            if ((!jump || !IsCollision(positionColonnePerso, positionLignePerso, "sol")) 
-                && !toucheBordFenetre 
+            if ((!jump || !IsCollision(positionColonnePerso, positionLignePerso, "sol"))
+                && !toucheBordFenetre
                 && !IsCollision(positionColonnePerso, positionLignePerso - 1, "echelles")
                 && !IsCollision(positionColonnePerso, positionLignePerso + 1, "echelles"))
                 velocity.Y += gravity.Y * elapsedTime;
@@ -201,17 +228,24 @@ namespace Jeux.Screen
                 velocity.Y = 0;
 
             //si en colision avec le sol, il peut sauter
-            if (IsCollision(positionColonnePerso, positionLignePerso +1, "sol"))
+            if (IsCollision(positionColonnePerso, positionLignePerso + 1, "sol"))
                 jump = true;
 
 
             // velocity.Y = 0;
+            float test = _map[_mapEnCour].ObjectLayers[0].Objects.Length;
 
             //debug
             Console.WriteLine($"Colision sol : {IsCollision(positionColonnePerso, positionLignePerso, "sol")}" +
                 $"\nCollision echelle X : {IsCollision(positionColonnePerso, positionLignePerso, 3, "echelles")}" +
                 $"\nsaut : {jump}");
-            if (keyboardState.IsKeyDown(Keys.Enter))
+
+
+            foreach (Rectangle item in _collsions)
+                if(perso.Intersects(item))
+                    Console.WriteLine("true"); 
+
+                if (keyboardState.IsKeyDown(Keys.Enter))
                 _game1.PositionPerso = Vector2.Zero;
 
             _game1.PositionPerso += velocity * elapsedTime;
@@ -232,7 +266,7 @@ namespace Jeux.Screen
             _game1.SpriteBatch.Begin();
             _game1.SpriteBatch.Draw(_game1.Perso, _game1.PositionPerso);
             //_game1.SpriteBatch.Draw(_joueur.JoueurP, _joueur.Position);
-            _renduMap.Draw();
+            _renduMap[_mapEnCour].Draw();
             _game1.SpriteBatch.End();
         }
 
@@ -262,6 +296,8 @@ namespace Jeux.Screen
                 movementDirection.Normalize();
             }
 
+
+
             return movementDirection;
         }
 
@@ -273,8 +309,8 @@ namespace Jeux.Screen
 
             if (_game1.PositionPerso.X < WIDTH_FENETRE / 2)
                 _cameraPosition.X = WIDTH_FENETRE / 2;
-            else if (_game1.PositionPerso.X > _map.WidthInPixels - (WIDTH_FENETRE/2))
-                _cameraPosition.X = _map.WidthInPixels - (WIDTH_FENETRE / 2);
+            else if (_game1.PositionPerso.X > _map[_mapEnCour].WidthInPixels - (WIDTH_FENETRE/2))
+                _cameraPosition.X = _map[_mapEnCour].WidthInPixels - (WIDTH_FENETRE / 2);
             else
                 _cameraPosition += speed * movementDirection;
         }
@@ -283,7 +319,7 @@ namespace Jeux.Screen
         {
             TiledMapTile? tile;
             TiledMapTileLayer _obstacleLayer;
-            _obstacleLayer = this._map.GetLayer<TiledMapTileLayer>(layer);
+            _obstacleLayer = this._map[_mapEnCour].GetLayer<TiledMapTileLayer>(layer);
             if (_obstacleLayer.TryGetTile((ushort)x, (ushort)y, out tile) == false)
             {
                 return false;
@@ -299,7 +335,7 @@ namespace Jeux.Screen
         {
             TiledMapTile? tile;
             TiledMapTileLayer _obstacleLayer;
-            _obstacleLayer = _map.GetLayer<TiledMapTileLayer>(layer);
+            _obstacleLayer = _map[_mapEnCour].GetLayer<TiledMapTileLayer>(layer);
             if (_obstacleLayer.TryGetTile((ushort)x, (ushort)y, out tile))
             {
                 if (!tile.Value.IsBlank)
