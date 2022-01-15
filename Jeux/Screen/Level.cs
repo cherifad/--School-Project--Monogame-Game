@@ -84,12 +84,7 @@ namespace Jeux.Screen
            {
                 _map.Add(Content.Load<TiledMap>($"map/{i + 1}Eta"));
                 _renduMap.Add(new TiledMapRenderer(GraphicsDevice, _map[i]));
-           }
-
-
-          
-           
-
+           } 
             // _joueur.Create(_game1);            
 
             base.LoadContent();
@@ -100,6 +95,7 @@ namespace Jeux.Screen
 
             if (_collisionRectangle)
             {
+                _collsions.Clear();
                 for (int i = 0; i < _map[_mapEnCour].ObjectLayers[0].Objects.Length; i++)
                 {
                     _collsions.Add(new Rectangle((int)_map[_mapEnCour].ObjectLayers[0].Objects[i].Position.X,
@@ -107,12 +103,17 @@ namespace Jeux.Screen
                                                   (int)_map[_mapEnCour].ObjectLayers[0].Objects[i].Size.Width,
                                                   (int)_map[_mapEnCour].ObjectLayers[0].Objects[i].Size.Height));
                 }
-
                 _collisionRectangle = false;
             }
 
             Rectangle perso = new Rectangle((int)_game1.PositionPerso.X, (int)_game1.PositionPerso.Y, _game1.Perso.TextureRegion.Width,
                  _game1.Perso.TextureRegion.Height);
+
+            bool iscollision = false;
+
+            foreach (Rectangle item in _collsions)
+                if (perso.Intersects(item))
+                    iscollision = true;
 
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -241,9 +242,7 @@ namespace Jeux.Screen
                 $"\nsaut : {jump}");
 
 
-            foreach (Rectangle item in _collsions)
-                if(perso.Intersects(item))
-                    Console.WriteLine("true"); 
+          
 
                 if (keyboardState.IsKeyDown(Keys.Enter))
                 _game1.PositionPerso = Vector2.Zero;
