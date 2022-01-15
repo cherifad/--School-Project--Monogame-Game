@@ -13,7 +13,7 @@ using System;
 namespace Jeux
 {
     public enum Ecran { Home, Level1 };
-        public enum TypeAnimation { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight };
+        public enum TypeAnimation { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb };
         public class Game1 : Game
         {
             private GraphicsDeviceManager _graphics;
@@ -26,7 +26,7 @@ namespace Jeux
 
             private Vector2 _positionPerso;
 
-            private Level1 _screenLevel1;
+            private Level _screenLevel1;
 
             private Home _screenHome;
 
@@ -120,7 +120,8 @@ namespace Jeux
             protected override void Initialize()
             {
             // TODO: Add your initialization logic here
-            var _positionPerso = Vector2.Zero; //new Vector2(Level1.WIDTH_FENETRE / 2, Level1.HEIGHT_FENETRE / 2);
+            //        var _positionPerso = Vector2.Zero; //new Vector2(Level1.WIDTH_FENETRE / 2, Level1.HEIGHT_FENETRE / 2);
+            var _positionPerso = new Vector2(10, 10);
             Graphics.PreferredBackBufferWidth = 1920;
             Graphics.PreferredBackBufferHeight = 992;
             //Graphics.IsFullScreen = true;
@@ -141,7 +142,7 @@ namespace Jeux
                 Perso = new AnimatedSprite(animation);
 
                 _screenHome = new Home(this);
-                _screenLevel1 = new Level1(this);
+                _screenLevel1 = new Level(this);
                 _screenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
                 _currentScreen = Ecran.Home;
 
@@ -155,9 +156,6 @@ namespace Jeux
                 _screenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
 
             if(_screenHome.exit)
-                Exit();
-
-            if (_screenHome.settings)
                 Exit();
 
             base.Update(gameTime);

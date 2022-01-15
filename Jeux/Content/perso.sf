@@ -16,7 +16,7 @@
       "frameDuration": 0.07
     },
     "hitRight": {
-      "frames": [  7 ],
+      "frames": [ 7 ],
       "isLooping": false,
       "frameDuration": 0.5
     },
@@ -49,6 +49,11 @@
       "frames": [ 5 ],
       "isLooping": false,
       "frameDuration": 0.2
-    }
+    },
+  "idleClimb": {
+    "frames": [ 12 ],
+    "isLooping": false,
+    "frameDuration": 0.2
   }
+}
 }

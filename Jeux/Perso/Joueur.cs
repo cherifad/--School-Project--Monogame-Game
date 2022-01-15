@@ -12,8 +12,6 @@ namespace Jeux.Perso
     public enum TypeAnimation { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight };
     class Joueur
     {
-        private string _animatedSprite;
-
         private Vector2 _position;
 
         private AnimatedSprite _joueurP;
@@ -40,41 +38,20 @@ namespace Jeux.Perso
 
         TiledMapTileLayer layer;
 
-
-        public Joueur(string animatedSprite, Vector2 position)
+        public Joueur(Vector2 position, AnimatedSprite joueurP)
         {
-            this.AnimatedSprite = animatedSprite;
             this.Position = position;
+            this.JoueurP = joueurP;
         }
 
-        public string AnimatedSprite { get => this._animatedSprite; set => this._animatedSprite = value; }
         public Vector2 Position { get => this._position; set => this._position = value; }
 
-        public TypeAnimation Animation
-        {
-            get
-            {
-                return this._animation;
-            }
-
-            set
-            {
-                this._animation = value;
-            }
-        }
+        public TypeAnimation Animation { get => this._animation; set => this._animation = value; }
 
         public AnimatedSprite JoueurP { get => this._joueurP; set => this._joueurP = value; }
 
-        public void Create(Game screen)
+        public void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb)
         {
-            SpriteSheet animation = screen.Content.Load<SpriteSheet>(this.AnimatedSprite + ".sf", new JsonContentLoader());
-            JoueurP = new AnimatedSprite(animation);
-        }
-
-        public void Move(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb)
-        {
-            TiledMapTile? tile;
-
             float walkSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 100;
 
             KeyboardState keyboardState = Keyboard.GetState();
@@ -89,13 +66,7 @@ namespace Jeux.Perso
 
             velocity.X = 0;
 
-          //  layer.TryGetTile(x, y, out tile);
-
             bool collision;
-
-
-            //Console.WriteLine("position en pixel du perso :" + _game1.PositionPerso.X + "," + _game1.PositionPerso.Y);
-            //Console.WriteLine("position dans la matrice du perso :" + positionColonnePerso + "," + positionLignePerso);
 
             if (idleRight)
                 Animation = TypeAnimation.idleRight;
@@ -140,11 +111,6 @@ namespace Jeux.Perso
                 jump = false;
             }
 
-           /* if (tile.HasValue && !toucheBordFenetre)
-            {
-                _game1.PositionPerso += walkSpeed * deplacement;
-            }*/
-
             while (!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
             {
                 if (!jump)
@@ -170,7 +136,7 @@ namespace Jeux.Perso
         private bool IsCollision(float x, float y, string layer, TiledMap _map)
         {
             TiledMapTile? tile;
-            TiledMapTileLayer _obstacleLayer = _map.GetLayer<TiledMapTileLayer>("sol");
+            TiledMapTileLayer _obstacleLayer = _map.GetLayer<TiledMapTileLayer>(layer);
             _obstacleLayer = _map.GetLayer<TiledMapTileLayer>(layer);
             if (_obstacleLayer.TryGetTile((ushort)x, (ushort)y, out tile) == false)
             {
@@ -181,8 +147,6 @@ namespace Jeux.Perso
                 return true;
             }
             return false;
-        }
-
-       
+        }       
     }
 }
