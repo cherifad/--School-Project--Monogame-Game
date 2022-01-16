@@ -7,86 +7,123 @@ using MonoGame.Extended.Tiled.Renderers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Jeux.Controles;
+using MonoGame.Extended.Screens.Transitions;
 
 namespace Jeux.Screen
 {
-    class Home : GameScreen
+    public class Home : GameScreen
     {
-        private Game1 _game1; // pour récupérer la fenêtre de jeu principale
+		SpriteBatch spriteBatch;
 
-        private TiledMap _tiledMap;
+		// pour récupérer le jeu en cours
+		private Game1 _myGame;
 
-        private TiledMapRenderer _tiledMapRenderer;
+		//components
+		private List<Components> _gameComponents;
 
-        private SpriteBatch spriteBatch;
-
-        private TiledMapTileLayer _mapLayer;
-
-        public bool start, settings, exit;
-
-        private Rectangle rectangleExit, rectangleStart, rectangleSettings;
-
-        public Home(Game1 game) : base(game)
-        {
-            _game1 = game;
-        }
-
-        public override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            _tiledMap = Content.Load<TiledMap>("homeScreen");
-
-            _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
+		//map et rendu
+		private TiledMap _tiledMap;
+		private TiledMapRenderer _tiledMapRenderer;
 
 
-             rectangleExit = new Rectangle(800, 640, 288, 160);
-             rectangleStart = new Rectangle(640, 352, 608, 288);
-             rectangleSettings = new Rectangle(1728, 0, 160, 160);
+		public Home(Game1 game) : base(game)
+		{
+			_myGame = game;
+		}
+		public override void LoadContent()
+		{
+			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            base.LoadContent();
-        }
+			//map
+			_tiledMap = Content.Load<TiledMap>("homescreen");
+			_tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
 
-        public override void Update(GameTime gameTime)
-        {
-            MouseState aMouse = Mouse.GetState();
 
-            if (aMouse.LeftButton == ButtonState.Pressed && _game1.mPreviousMouseState.LeftButton == ButtonState.Released)
-            {
-                //Set the starting location for the selection box to the current location
-                //where the Left button was initially clicked.
-                _game1.mSelectionBox = new Rectangle(aMouse.X, aMouse.Y, 0, 0);
-            }
+			//bouttons
+			var bouttonExit = new Boutons(Content.Load<Texture2D>("map/ecranAcceuil/bouttonExit"), Content.Load<SpriteFont>("Font/font"))
+			{
+				Position = new Vector2(768, 645),
+			};
+			bouttonExit.Click += this.BouttonExit_Click;
 
-            //If the user has released the left mouse button, then reset the selection square
-            if (aMouse.LeftButton == ButtonState.Released)
-            {
-                //Reset the selection square to no position with no height and width
-                _game1.mSelectionBox = new Rectangle(-1, -1, 0, 0);                
-            }
+			var bouttonParametre = new Boutons(Content.Load<Texture2D>("map/ecranAcceuil/bouttonParametre"), Content.Load<SpriteFont>("Font/font"))
+			{
+				Position = new Vector2(1728, 0),
+			};
+			bouttonParametre.Click += this.BouttonParametre_Click;
 
-            //Store the previous mouse state
-            _game1.mPreviousMouseState = aMouse;
+			var bouttonStart = new Boutons(Content.Load<Texture2D>("map/ecranAcceuil/bouttonStart"), Content.Load<SpriteFont>("Font/font"))
+			{
+				Position = new Vector2(544, 195),
+			};
+			bouttonStart.Click += this.BouttonStart_Click;
 
-            _tiledMapRenderer.Update(gameTime);
-        }
+			//components
+			_gameComponents = new List<Components>()
+			{
+				bouttonExit,
+				bouttonParametre,
+				bouttonStart,
+			};
+	
 
-        public override void Draw(GameTime gameTime)
-        {
-            _game1.GraphicsDevice.Clear(Color.Black);
+			base.LoadContent();
 
-            spriteBatch.Begin();
+		}
 
-            start = rectangleStart.Intersects(_game1.mSelectionBox);
+		//boutons
+		private void BouttonStart_Click(object sender, EventArgs e)
+		{
+			_myGame.ScreenManager.LoadScreen(_myGame._screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
+		}
 
-            settings = rectangleSettings.Intersects(_game1.mSelectionBox);
+		private void BouttonParametre_Click(object sender, EventArgs e)
+		{
+			_myGame.ScreenManager.LoadScreen(_myGame._screenParametre, new FadeTransition(GraphicsDevice, Color.Black));
+		}
 
-            exit = rectangleExit.Intersects(_game1.mSelectionBox);
+		private void BouttonExit_Click(object sender, EventArgs e)
+		{
+			_myGame.Exit();
+		}
 
-            _tiledMapRenderer.Draw();
+		public override void Update(GameTime gameTime)
+		{
+			foreach (var component in _gameComponents)
+				component.Update(gameTime);
+		}
 
-            spriteBatch.End();
-        }
+		public override void Draw(GameTime gameTime)
+		{
+			_myGame.GraphicsDevice.Clear(Color.Black);
 
-    }
+
+			spriteBatch.Begin();
+
+			//affichage map
+			_tiledMapRenderer.Draw();
+
+			//components
+			foreach (var component in _gameComponents)
+				component.Draw(gameTime, spriteBatch);
+
+			//texte
+			spriteBatch.DrawString(_myGame._fontTitle, "Nom Jeu?", new Vector2(500, 0), Color.White);
+
+			if (_myGame._langue == Game1.Langue.English)
+			{
+				spriteBatch.DrawString(_myGame._fontStart, "START", new Vector2(765, 540), Color.White);
+				spriteBatch.DrawString(_myGame._fontExit, "EXIT", new Vector2(880, 795), Color.White);
+			}
+			else if (_myGame._langue == Game1.Langue.French)
+			{
+				spriteBatch.DrawString(_myGame._fontStart, "LANCER", new Vector2(720, 540), Color.White);
+				spriteBatch.DrawString(_myGame._fontExit, "QUITTER", new Vector2(830, 795), Color.White);
+			}
+
+
+			spriteBatch.End();
+		}
+	}
 }

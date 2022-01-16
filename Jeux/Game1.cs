@@ -3,6 +3,7 @@ using Jeux.Screen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Content;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
@@ -12,7 +13,6 @@ using System;
 
 namespace Jeux
 {
-    public enum Ecran { Home, Level1 };
         public enum TypeAnimation { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb };
         public class Game1 : Game
         {
@@ -26,11 +26,14 @@ namespace Jeux
 
             private Vector2 _positionPerso;
 
-            private Level _screenLevel1;
-
-            private Home _screenHome;
-
-        private Test _screentest;
+            //
+            public enum Ecran { Home, Level1 };
+            public Level _screenLevel1;
+            public Home _screenHome;
+            public Parametres _screenParametre;
+            public Rules _screenRules;
+            public Rules2 _screenRules2;
+            private Test _screentest;
 
             private Ecran _currentScreen;
         
@@ -38,15 +41,36 @@ namespace Jeux
 
             public MouseState mPreviousMouseState;
 
-        public static int ScreenWidth, ScreenHeight;
+            public static int ScreenWidth, ScreenHeight;
 
-      //  private Joueur _joueur;
+            //langues
+            public enum Langue { French, English };
+            public Langue _langue;
 
+            //police
+            public SpriteFont _fontTitle;
+            public SpriteFont _font2;
+            public SpriteFont _fontStart;
+            public SpriteFont _fontExit;
 
+            //musique
+            public Song _music;
 
-        private readonly ScreenManager _screenManager;
+            private readonly ScreenManager _screenManager;
 
-            public SpriteBatch SpriteBatch
+        public Langue Langue1
+        {
+            get
+            {
+                return this._langue;
+            }
+
+            set
+            {
+                this._langue = value;
+            }
+        }
+        public SpriteBatch SpriteBatch
             {
                 get
                 {
@@ -111,7 +135,15 @@ namespace Jeux
                 }
             }
 
-            public Game1()
+        public ScreenManager ScreenManager
+        {
+            get
+            {
+                return this._screenManager;
+            }
+        }
+
+        public Game1()
             {
                 Graphics = new GraphicsDeviceManager(this);
                 Content.RootDirectory = "Content";
@@ -136,7 +168,10 @@ namespace Jeux
 
             mSelectionBox = new Rectangle(-1, -1, 0, 0);
             //Initialize the previous mouse state. This stores the current state of the mouse
-            mPreviousMouseState = Mouse.GetState(); 
+            mPreviousMouseState = Mouse.GetState();
+
+            //langue
+            _langue = Langue.English;
 
             base.Initialize();
             }
@@ -147,32 +182,53 @@ namespace Jeux
 
                 SpriteSheet animation = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
                 Perso = new AnimatedSprite(animation);
-
+                
+            //
                 _screenHome = new Home(this);
                 _screenLevel1 = new Level(this);
-            _screentest = new Test(this);
-            _screenManager.LoadScreen(_screentest, new FadeTransition(GraphicsDevice, Color.Black));
-           // _screenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
+                _screentest = new Test(this);
+                _screenParametre = new Parametres(this);
+                _screenRules = new Rules(this);
+                _screenRules2 = new Rules2(this);
+
+             //  ScreenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
+            // _screenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
                 _currentScreen = Ecran.Home;
 
-                // TODO: use this.Content to load your game content here
-            }
+                //musique
+                _music = Content.Load<Song>("music");
+                MediaPlayer.Play(_music);
 
-            protected override void Update(GameTime gameTime)
-            {
+            //police
+            _fontTitle = Content.Load<SpriteFont>("Font/font");
+            _font2 = Content.Load<SpriteFont>("Font/fontPara");
+            _fontStart = Content.Load<SpriteFont>("Font/fontStart");
+            _fontExit = Content.Load<SpriteFont>("Font/fontExit");
 
+            //loading écran accueil
+            ScreenManager.LoadScreen(_screenHome);
+            // TODO: use this.Content to load your game content here
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            /*
             if(_screenHome.start)
-                _screenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
+                ScreenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
 
             if(_screenHome.exit)
                 Exit();
+            */
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
 
-            _screenManager.LoadScreen(_screentest, new FadeTransition(GraphicsDevice, Color.Black));
-
-            
+            if (/*_ecranEncours != Ecran.Accueil && */ Keyboard.GetState().IsKeyDown(Keys.M))
+            {
+                ScreenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
+            }
 
             base.Update(gameTime);
-            }
+        }
 
             protected override void Draw(GameTime gameTime)
             {

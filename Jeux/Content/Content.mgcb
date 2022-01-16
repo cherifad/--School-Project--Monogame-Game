@@ -10,11 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Content.Pipeline.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Graphics.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Tiled.dll
-/reference:D:\adlen\Download\les5\les5\Newtonsoft.Json.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Graphics.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Tiled.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -29,6 +29,34 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:bg_all.png
+
+#begin Font/font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/font.spritefont
+
+#begin Font/fontExit.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/fontExit.spritefont
+
+#begin Font/fontPara.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/fontPara.spritefont
+
+#begin Font/fontStart.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/fontStart.spritefont
 
 #begin homeScreen.tmx
 /importer:TiledMapImporter
@@ -76,11 +104,6 @@
 /processor:TiledMapProcessor
 /build:map/1Eta.tmx
 
-#begin map/1Eta.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:map/1Eta.tmx
-
 #begin map/2Eta.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -112,6 +135,102 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:map/day sky.png
+
+#begin map/ecranAcceuil/bg_all.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bg_all.png
+
+#begin map/ecranAcceuil/bouttonExit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonExit.png
+
+#begin map/ecranAcceuil/bouttonLangues.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonLangues.png
+
+#begin map/ecranAcceuil/bouttonParametre.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonParametre.png
+
+#begin map/ecranAcceuil/bouttonRules.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonRules.png
+
+#begin map/ecranAcceuil/bouttonSon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonSon.png
+
+#begin map/ecranAcceuil/bouttonStart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonStart.png
+
+#begin map/ecranAcceuil/parchemin.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/parchemin.png
 
 #begin map/eta1backround/day sky.png
 /importer:TextureImporter
@@ -305,11 +424,53 @@
 /processorParam:TextureFormat=Color
 /build:map/Vraie.png
 
+#begin music.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music.mp3
+
 #begin perso.sf
 /importer:SpriteFactoryContentImporter
 /processor:SpriteFactoryContentProcessor
 /processorParam:ContentType=MonoGame.Extended MonoGame.Extended.Animations.SpriteFactory.SpriteFactoryFileReader, MonoGame.Extended.Animations
 /build:perso.sf
+
+#begin rules/arrow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:rules/arrow.png
+
+#begin rules/arrow2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:rules/arrow2.png
+
+#begin rules/image1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:rules/image1.png
 
 #begin test.png
 /importer:TextureImporter
