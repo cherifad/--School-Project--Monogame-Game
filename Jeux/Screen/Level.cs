@@ -30,7 +30,7 @@ namespace Jeux.Screen
 
         private Vector2 _cameraPosition;
 
-        bool idleRight = true;
+        bool idleRight = true, changement;
 
         private int speed = 10;
 
@@ -40,7 +40,7 @@ namespace Jeux.Screen
 
         bool jump = false, ecran;
 
-        private Joueur _joueur;
+        //private Joueur _joueur;
 
         private bool _collisionRectangle = true;
 
@@ -68,11 +68,13 @@ namespace Jeux.Screen
             _camera = new OrthographicCamera(viewportadapter);
             _cameraPosition = new Vector2(WIDTH_FENETRE/2, HEIGHT_FENETRE/2);
 
-            _joueur = new Joueur(Vector2.Zero, _game1.Perso);
+          //  _joueur = new Joueur(Vector2.Zero, _game1.Perso);
 
             _game1.IsMouseVisible = false;
 
-            _mapEnCour = 1;
+            _mapEnCour = 0;
+
+            changement = true;
 
             base.Initialize();
 
@@ -125,7 +127,15 @@ namespace Jeux.Screen
 
             Vector2 positionVirtuelle = Vector2.Zero;
 
-            _mapEnCour = 0;
+            if (keyboardState.IsKeyDown(Keys.O) && changement)
+            {
+                _mapEnCour++;
+                changement = false;
+            }
+
+            if (keyboardState.IsKeyUp(Keys.O))
+                changement = true;
+//                _mapEnCour ++;
 
             /*for (int i = 0; i < 5; i++)
             {
@@ -147,9 +157,6 @@ namespace Jeux.Screen
                 _game1.Animation = TypeAnimation.idleRight;
             else
                 _game1.Animation = TypeAnimation.idleLeft;
-
-            if (_game1.PositionPerso.X > WIDTH_FENETRE / 2)
-                walkSpeed = 0;
 
             if (IsCollision(positionColonnePerso, positionLignePerso - 1, "echelles")
                 && !IsCollision(positionColonnePerso, positionLignePerso - 1, "sol"))
@@ -207,7 +214,7 @@ namespace Jeux.Screen
               }*/
 
             //deplacement
-            if (IsCollision(positionColonnePerso, positionLignePerso, "sol")
+            if (iscollision //IsCollision(positionColonnePerso, positionLignePerso, "sol")
                 || !toucheBordFenetre
                 || IsCollision(positionColonnePerso, positionLignePerso - 1, "echelles")
                 || IsCollision(positionColonnePerso, positionLignePerso + 1, "echelles"))
@@ -228,6 +235,9 @@ namespace Jeux.Screen
             else
                 velocity.Y = 0;
 
+            if (_game1.PositionPerso.Y > GraphicsDevice.Viewport.Height)
+                _game1.PositionPerso = Vector2.Zero;
+
             //si en colision avec le sol, il peut sauter
             if (IsCollision(positionColonnePerso, positionLignePerso + 1, "sol"))
                 jump = true;
@@ -240,9 +250,8 @@ namespace Jeux.Screen
             Console.WriteLine($"Colision sol : {IsCollision(positionColonnePerso, positionLignePerso, "sol")}" +
                 $"\nCollision echelle X : {IsCollision(positionColonnePerso, positionLignePerso, 3, "echelles")}" +
                 $"\nsaut : {jump}");
+            
 
-
-          
 
                 if (keyboardState.IsKeyDown(Keys.Enter))
                 _game1.PositionPerso = Vector2.Zero;

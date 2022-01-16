@@ -6,8 +6,14 @@ using System.Text;
 
 namespace Jeux.Perso
 {
-    class Ennemis
+    class Enemy : Sprite
     {
+        public Enemy(AnimatedSprite texture) 
+            : base(texture)
+        {
+        }
+
+
         private Vector2 _position;
         private Vector2 _velocity;
         private AnimatedSprite _texture;
@@ -18,13 +24,7 @@ namespace Jeux.Perso
 
         int _ranX, _ranY;
 
-        public Ennemis(Vector2 position, AnimatedSprite texture)
-        {
-            this.Position = position;
-            this.Texture = texture;
-        }
-
-        public void Play(Joueur joueur, GameTime gameTime)
+        public void Play(Player joueur, GameTime gameTime)
         {
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             float walkSpeed = elapsedTime * 300;

@@ -30,13 +30,17 @@ namespace Jeux
 
             private Home _screenHome;
 
+        private Test _screentest;
+
             private Ecran _currentScreen;
         
             public Rectangle mSelectionBox;
 
             public MouseState mPreviousMouseState;
 
-        private Joueur _joueur;
+        public static int ScreenWidth, ScreenHeight;
+
+      //  private Joueur _joueur;
 
 
 
@@ -127,6 +131,9 @@ namespace Jeux
             //Graphics.IsFullScreen = true;
             Graphics.ApplyChanges();
 
+            ScreenWidth = Graphics.PreferredBackBufferWidth;
+            ScreenHeight = Graphics.PreferredBackBufferHeight;
+
             mSelectionBox = new Rectangle(-1, -1, 0, 0);
             //Initialize the previous mouse state. This stores the current state of the mouse
             mPreviousMouseState = Mouse.GetState(); 
@@ -143,7 +150,9 @@ namespace Jeux
 
                 _screenHome = new Home(this);
                 _screenLevel1 = new Level(this);
-                _screenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
+            _screentest = new Test(this);
+            _screenManager.LoadScreen(_screentest, new FadeTransition(GraphicsDevice, Color.Black));
+           // _screenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
                 _currentScreen = Ecran.Home;
 
                 // TODO: use this.Content to load your game content here
@@ -157,6 +166,10 @@ namespace Jeux
 
             if(_screenHome.exit)
                 Exit();
+
+            _screenManager.LoadScreen(_screentest, new FadeTransition(GraphicsDevice, Color.Black));
+
+            
 
             base.Update(gameTime);
             }
