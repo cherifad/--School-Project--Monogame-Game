@@ -43,7 +43,7 @@ namespace Jeux.Screen
 			//bouttons
 			var bouttonExit = new Boutons(Content.Load<Texture2D>("map/ecranAcceuil/bouttonExit"), Content.Load<SpriteFont>("Font/font"))
 			{
-				Position = new Vector2(768, 645),
+				Position = new Vector2(832, 770),
 			};
 			bouttonExit.Click += this.BouttonExit_Click;
 
@@ -55,7 +55,7 @@ namespace Jeux.Screen
 
 			var bouttonStart = new Boutons(Content.Load<Texture2D>("map/ecranAcceuil/bouttonStart"), Content.Load<SpriteFont>("Font/font"))
 			{
-				Position = new Vector2(544, 195),
+				Position = new Vector2(668, 480),
 			};
 			bouttonStart.Click += this.BouttonStart_Click;
 
@@ -113,13 +113,13 @@ namespace Jeux.Screen
 
 			if (_myGame._langue == Game1.Langue.English)
 			{
-				spriteBatch.DrawString(_myGame._fontStart, "START", new Vector2(765, 540), Color.White);
-				spriteBatch.DrawString(_myGame._fontExit, "EXIT", new Vector2(880, 795), Color.White);
+				spriteBatch.DrawString(_myGame._fontStart, "START", new Vector2(775, 540), Color.White);
+				spriteBatch.DrawString(_myGame._fontExit, "EXIT", new Vector2(900, 795), Color.White);
 			}
 			else if (_myGame._langue == Game1.Langue.French)
 			{
-				spriteBatch.DrawString(_myGame._fontStart, "LANCER", new Vector2(720, 540), Color.White);
-				spriteBatch.DrawString(_myGame._fontExit, "QUITTER", new Vector2(830, 795), Color.White);
+				spriteBatch.DrawString(_myGame._fontStart, "LANCER", new Vector2(730, 540), Color.White);
+				spriteBatch.DrawString(_myGame._fontExit, "QUITTER", new Vector2(850, 795), Color.White);
 			}
 
 
