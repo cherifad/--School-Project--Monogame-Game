@@ -10,6 +10,7 @@ using MonoGame.Extended.Screens.Transitions;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 using System;
+using System.Collections.Generic;
 
 namespace Jeux
 {
@@ -19,14 +20,16 @@ namespace Jeux
             private GraphicsDeviceManager _graphics;
 
             private SpriteBatch _spriteBatch;
-
+            
+            //personnages
             private AnimatedSprite _perso;
-
             private TypeAnimation _animation;
-
             private Vector2 _positionPerso;
 
-            //
+            //ennemis
+            private List<Enemy> _enemy;
+            
+            //écrans
             public enum Ecran { Home, Level1 };
             public Level _screenLevel1;
             public Home _screenHome;
@@ -34,11 +37,10 @@ namespace Jeux
             public Rules _screenRules;
             public Rules2 _screenRules2;
             private Test _screentest;
-
             private Ecran _currentScreen;
         
+            //souris
             public Rectangle mSelectionBox;
-
             public MouseState mPreviousMouseState;
 
             public static int ScreenWidth, ScreenHeight;
@@ -56,21 +58,26 @@ namespace Jeux
             //musique
             public Song _music;
 
+            //sprites
+            private List<Objets> _spritesCoeur;
+            //private List<Objets> _spritesCoffres;
+
+
             private readonly ScreenManager _screenManager;
 
-        public Langue Langue1
-        {
-            get
+            public Langue Langue1
             {
-                return this._langue;
-            }
-
-            set
-            {
-                this._langue = value;
-            }
-        }
-        public SpriteBatch SpriteBatch
+                get
+                {
+                   return this._langue;
+                }
+                
+                set
+                {
+                    this._langue = value;
+                }
+            }   
+            public SpriteBatch SpriteBatch
             {
                 get
                 {
@@ -135,11 +142,37 @@ namespace Jeux
                 }
             }
 
-        public ScreenManager ScreenManager
+            public ScreenManager ScreenManager
+            {
+                get
+                {
+                    return this._screenManager;
+                }
+            }
+
+        public List<Objets> SpritesCoeur
         {
             get
             {
-                return this._screenManager;
+                return this._spritesCoeur;
+            }
+
+            set
+            {
+                this._spritesCoeur = value;
+            }
+        }
+
+        public List<Enemy> Enemy
+        {
+            get
+            {
+                return this._enemy;
+            }
+
+            set
+            {
+                this._enemy = value;
             }
         }
 
@@ -183,7 +216,7 @@ namespace Jeux
                 SpriteSheet animation = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
                 Perso = new AnimatedSprite(animation);
                 
-            //
+                //ecrans
                 _screenHome = new Home(this);
                 _screenLevel1 = new Level(this);
                 _screentest = new Test(this);
@@ -199,11 +232,39 @@ namespace Jeux
                 _music = Content.Load<Song>("music");
                 MediaPlayer.Play(_music);
 
-            //police
-            _fontTitle = Content.Load<SpriteFont>("Font/font");
-            _font2 = Content.Load<SpriteFont>("Font/fontPara");
-            _fontStart = Content.Load<SpriteFont>("Font/fontStart");
-            _fontExit = Content.Load<SpriteFont>("Font/fontExit");
+                //police
+                _fontTitle = Content.Load<SpriteFont>("Font/font");
+                _font2 = Content.Load<SpriteFont>("Font/fontPara");
+                _fontStart = Content.Load<SpriteFont>("Font/fontStart");
+                _fontExit = Content.Load<SpriteFont>("Font/fontExit");
+
+
+
+                 //objets
+                _spritesCoeur = new List<Objets>
+                {
+                     new Objets(new AnimatedSprite(Content.Load<SpriteSheet>("objets/coeurAnim.sf", new JsonContentLoader())))
+                    {
+                        Position = new Vector2(900,20)
+                    },
+                    new Objets(new AnimatedSprite(Content.Load<SpriteSheet>("objets/coeurAnim.sf", new JsonContentLoader())))
+                    {
+                        Position = new Vector2(940,20)
+                    },
+                    new Objets(new AnimatedSprite(Content.Load<SpriteSheet>("objets/coeurAnim.sf", new JsonContentLoader())))
+                    {
+                        Position = new Vector2(980,20)
+                    }
+                };
+
+                //enemy
+                _enemy = new List<Enemy>
+                {
+                    new Enemy(new AnimatedSprite(Content.Load<SpriteSheet>("ennemy/marchechevalier.sf", new JsonContentLoader())))
+                    {
+                        Position = new Vector2(30,500)
+                    }
+                };
 
             //loading écran accueil
             ScreenManager.LoadScreen(_screenHome);

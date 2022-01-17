@@ -75,5 +75,11 @@
     <None Update="Content\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+	<None Update="Content\objets\coeurAnim.sf">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+	  <None Update="Content\ennemy\marchechevalier.sf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
   </ItemGroup>
 </Project>

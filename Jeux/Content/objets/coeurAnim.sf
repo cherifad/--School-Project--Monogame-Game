@@ -1,0 +1,19 @@
+{
+  "textureAtlas": {
+    "texture": "coeurAnim.png",
+    "regionWidth": 41,
+    "regionHeight": 30
+  },
+  "cycles": {
+    "animCoeur": {
+      "frames": [ 0, 1, 2, 3, 4 ]
+    },
+
+    "fullVie": {
+      "frames": [ 0 ]
+    },
+    "noLife": {
+      "frames":  [4]
+    }
+  }
+}

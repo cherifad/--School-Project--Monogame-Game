@@ -6,17 +6,12 @@ using System.Text;
 
 namespace Jeux.Perso
 {
-    class Enemy : Sprite
+    public class Enemy : Sprite
     {
         public Enemy(AnimatedSprite texture) 
             : base(texture)
         {
         }
-
-
-        private Vector2 _position;
-        private Vector2 _velocity;
-        private AnimatedSprite _texture;
         private Vector2 deplacement = Vector2.Zero;
 
         Random random = new Random();
@@ -46,8 +41,5 @@ namespace Jeux.Perso
 
             Position += walkSpeed * deplacement;
         }
-        
-        public Vector2 Position { get => this._position; set => this._position = value; }
-        public AnimatedSprite Texture { get => this._texture; set => this._texture = value; }
     }
 }
