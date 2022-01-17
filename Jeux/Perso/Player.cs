@@ -10,7 +10,7 @@ using System.Text;
 namespace Jeux.Perso
 {
     public enum TypeAnimation { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb };
-    class Player : Sprite
+    public class Player : Sprite
     {
         public Player(AnimatedSprite texture) 
             : base(texture)

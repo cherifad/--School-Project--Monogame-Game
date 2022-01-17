@@ -30,6 +30,18 @@
 /processorParam:TextureFormat=Color
 /build:bg_all.png
 
+#begin ennemy/marchechevalier.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ennemy/marchechevalier.png
+
 #begin Font/font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -429,6 +441,18 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:music.mp3
+
+#begin objets/coeurAnim.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:objets/coeurAnim.png
 
 #begin perso.sf
 /importer:SpriteFactoryContentImporter

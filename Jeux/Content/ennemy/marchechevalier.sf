@@ -1,0 +1,19 @@
+{
+  "textureAtlas": {
+    "texture": "marchechevalier.png",
+    "regionWidth": 75,
+    "regionHeight": 115
+  },
+  "cycles": {
+    "marchegauche": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "marchedroite": {
+      "frames": [3,2],
+      "isLooping": false,
+      "frameDuration": 0.2
+    }
+  }
+}

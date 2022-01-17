@@ -234,10 +234,11 @@ namespace Jeux.Screen
                 velocity.Y = 0;*/
             else
                 velocity.Y = 0;
-
+            //si le perso tombe
             if (_game1.PositionPerso.Y > GraphicsDevice.Viewport.Height)
+            {
                 _game1.PositionPerso = Vector2.Zero;
-
+            }
             //si en colision avec le sol, il peut sauter
             if (IsCollision(positionColonnePerso, positionLignePerso + 1, "sol"))
                 jump = true;
@@ -260,7 +261,7 @@ namespace Jeux.Screen
 
             // _joueur.Move(gameTime, _map, "sol"", "echelles");
 
-
+            //camera
             MoveCamera(gameTime);
             _camera.LookAt(_cameraPosition);
 
@@ -273,6 +274,17 @@ namespace Jeux.Screen
             _game1.GraphicsDevice.Clear(Color.Red);
             _game1.SpriteBatch.Begin();
             _game1.SpriteBatch.Draw(_game1.Perso, _game1.PositionPerso);
+
+            //objets (coeur, coffre ...)
+            foreach (var sprite in _game1.SpritesCoeur)
+            {
+                sprite.Draw(_game1.SpriteBatch);
+                sprite.Mort(_game1.Perso,gameTime);
+            }
+            foreach (var sprite in _game1.Enemy)
+            {
+                sprite.Draw(_game1.SpriteBatch);
+            }
             //_game1.SpriteBatch.Draw(_joueur.JoueurP, _joueur.Position);
             _renduMap[_mapEnCour].Draw();
             _game1.SpriteBatch.End();
