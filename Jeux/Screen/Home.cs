@@ -26,6 +26,8 @@ namespace Jeux.Screen
 		private TiledMap _tiledMap;
 		private TiledMapRenderer _tiledMapRenderer;
 
+		//titre
+		private Texture2D _titre;
 
 		public Home(Game1 game) : base(game)
 		{
@@ -66,7 +68,9 @@ namespace Jeux.Screen
 				bouttonParametre,
 				bouttonStart,
 			};
-	
+
+			//titre
+			_titre = Content.Load<Texture2D>("map/ecranAcceuil/titre");
 
 			base.LoadContent();
 
@@ -109,8 +113,6 @@ namespace Jeux.Screen
 				component.Draw(gameTime, spriteBatch);
 
 			//texte
-			spriteBatch.DrawString(_myGame._fontTitle, "Nom Jeu?", new Vector2(500, 0), Color.White);
-
 			if (_myGame._langue == Game1.Langue.English)
 			{
 				spriteBatch.DrawString(_myGame._fontStart, "START", new Vector2(775, 540), Color.White);
@@ -122,7 +124,8 @@ namespace Jeux.Screen
 				spriteBatch.DrawString(_myGame._fontExit, "QUITTER", new Vector2(850, 795), Color.White);
 			}
 
-
+			//affichage parchemin
+			spriteBatch.Draw(_titre, new Vector2(400, 150),Color.White);
 			spriteBatch.End();
 		}
 	}

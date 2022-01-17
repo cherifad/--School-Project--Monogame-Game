@@ -232,6 +232,18 @@
 /processorParam:TextureFormat=Color
 /build:map/ecranAcceuil/parchemin.png
 
+#begin map/ecranAcceuil/titre.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/titre.png
+
 #begin map/eta1backround/day sky.png
 /importer:TextureImporter
 /processor:TextureProcessor
