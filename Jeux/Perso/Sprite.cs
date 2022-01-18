@@ -16,6 +16,7 @@ namespace Jeux.Perso
         // public Input Input;
         public bool IsRemoved = false;
         private TypeAnimation _animation;
+        private int _health;
 
         public enum TypeAnimation
         {
@@ -25,7 +26,6 @@ namespace Jeux.Perso
         };
 
         public TypeAnimation Animation { get => this._animation; set => this._animation = value; }
-
         public Vector2 Gravity
         {
             get
@@ -41,6 +41,24 @@ namespace Jeux.Perso
             }
         }
 
+        /*public List<Rectangle> HealhtBar
+        {
+            get
+            {
+                return HealhtBar;
+            }
+            set
+            {
+                HealhtBar = new List<Rectangle>();
+                for (int i = 0; i < Health; i++)
+                {
+                    HealhtBar.Add(new Rectangle(Rectangle.X + i * 5, Rectangle.Y - 1, 5, 5));
+                }
+            }
+        }*/
+
+        public int Health { get => this._health; protected set => this._health = value; }
+
         public Sprite(AnimatedSprite texture)
         {
             _texture = texture;
@@ -48,7 +66,6 @@ namespace Jeux.Perso
 
         public virtual void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {
-
             _texture.Play(Animation.ToString());
             _texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }

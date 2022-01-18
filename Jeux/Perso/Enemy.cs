@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using System;
@@ -15,11 +16,14 @@ namespace Jeux.Perso
         public Enemy(AnimatedSprite texture) 
             : base(texture)
         {
+            Health = 5;
         }
 
         private Vector2 deplacement = Vector2.Zero;
 
-        public bool _visible = true;
+        protected bool hit = false;
+
+        protected bool _visible = true, _spam = false;
 
         public void Move(GameTime gameTime, TiledMap _map, string layerCollision, GraphicsDevice graphicsDevice, Sprite player)
         {
@@ -30,9 +34,11 @@ namespace Jeux.Perso
 
             float positionLignePerso = ((this.Position.Y + this._texture.TextureRegion.Height / 2) / _map.TileHeight);
 
-            Velocity.X = 0;
+            int timer = 1;
 
-            bool bord = Position.X > Game1.ScreenWidth;
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            Velocity.X = 0;
 
             int end = (int)player.Position.Y + 10;
             int start = (int)player.Position.Y - 10;
@@ -40,9 +46,18 @@ namespace Jeux.Perso
             if (Enumerable.Range(start, end).Contains(Rectangle.Y))
             {
                 walkSpeed = elapsedTime * 200;
-                if (Math.Abs(Position.X - player.Position.X) < 2)
-                    //frappe le joueur;
+                if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyDown(Keys.X) && !_spam)
+                {
+                    Health--;
                     deplacement = Vector2.Zero;
+                    _spam = true;
+                }
+                else if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyUp(Keys.X) && timer > 0)
+                    {
+                        hit = true;
+                        deplacement = Vector2.Zero;
+                        timer -= (int)elapsedTime;
+                    }
                 else if (Position.X > player.Position.X)
                 {
                     Animation = TypeAnimation.enemyWalkLeft;
@@ -62,25 +77,13 @@ namespace Jeux.Perso
                     deplacement += Vector2.UnitX;
             }
 
-            /* if (this.Position.Y > player.Position.Y)
-            {
-                walkSpeed += 100;
-                if (Math.Abs(Position.X - player.Position.X) < 2)
-                    //frappe le joueur;
-                    deplacement = Vector2.Zero;
-                else if (Position.X > player.Position.X)
-                {
-                    Animation = TypeAnimation.enemyWalkLeft;
-                    deplacement = -Vector2.UnitX;
-                }
-                else if (Position.X < player.Position.X)
-                {
-                    deplacement = Vector2.UnitX;
-                    Animation = TypeAnimation.enemyWalkRight;
-                }
-            }
-            else
-                deplacement = Vector2.UnitX;*/
+            hit = false;
+
+            if (keyboardState.IsKeyUp(Keys.X))
+                _spam = false;
+
+//                    deplacement = -Vector2.UnitX;
+
 
             if ((!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
                )
@@ -89,6 +92,11 @@ namespace Jeux.Perso
             }
             else
                 Velocity.Y = 0;
+
+            if(this.Rectangle.Intersects(player.Rectangle))
+            {
+                this.Position = player.Position;
+            }
 
             Position += Velocity * elapsedTime;
 

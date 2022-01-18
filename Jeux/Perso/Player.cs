@@ -15,6 +15,7 @@ namespace Jeux.Perso
         public Player(AnimatedSprite texture) 
             : base(texture)
         {
+            Health = 10;
         }
 
         public void Move(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice)
@@ -47,6 +48,8 @@ namespace Jeux.Perso
             if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map)
                 && !IsCollision(positionColonnePerso, positionLignePerso - 1, layerCollision, _map))
                 Animation = TypeAnimation.idleClimb;
+
+            //si le joueur est frappé
 
 
             //touche du haut + echelle

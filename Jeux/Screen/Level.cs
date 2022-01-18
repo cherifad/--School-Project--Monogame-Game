@@ -22,7 +22,7 @@ namespace Jeux.Screen
 
         private int _mapEnCour;
 
-        private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>();
+        private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>(), _health;
 
         private List<Sprite> _sprites;
 
@@ -65,10 +65,6 @@ namespace Jeux.Screen
                new Player(playerTexture)
                {
                    Position = new Vector2(10, 10),
-               },
-               new Enemy(enemyTexture)
-               {
-                   Position = new Vector2(100, 200),
                }
            };
 
@@ -80,6 +76,7 @@ namespace Jeux.Screen
 
             if (_switch)
             {
+                _start.Clear();                
                 int i = 2;
                 int y = 2;
                 while (i > 0)
@@ -105,6 +102,15 @@ namespace Jeux.Screen
 
             Console.WriteLine(_map[_mapEnCour].ObjectLayers[0].Objects.Length);
 
+            for (int i = 0; i < _sprites.Count; i++)
+            {
+                if (_sprites[i].Health == 0)
+                {
+                    _sprites.RemoveAt(i);
+                    i--;
+                }
+
+            } 
 
             if (_sprites[0].Rectangle.Intersects(_start[0]))
             {
@@ -122,6 +128,7 @@ namespace Jeux.Screen
             _game1.GraphicsDevice.Clear(Color.Red);
 
             _game1.SpriteBatch.Begin();
+
 
             foreach (var sprite in _sprites)
                 sprite.Draw(_game1.SpriteBatch);
