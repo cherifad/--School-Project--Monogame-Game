@@ -66,7 +66,7 @@ namespace Jeux.Screen
                },
                new Enemy(enemyTexture)
                {
-                   Position = Vector2.Zero,
+                   Position = new Vector2(500,0),
                }
            };
 
@@ -101,6 +101,7 @@ namespace Jeux.Screen
 
             foreach (Sprite sprite in _sprites)
                 sprite.Update(gameTime, _map[_mapEnCour], "sol", "echelles", GraphicsDevice, _sprites[0]);
+
         }
 
         public override void Draw(GameTime gameTime)

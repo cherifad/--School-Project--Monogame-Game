@@ -158,14 +158,14 @@ namespace Jeux.Perso
 
 
             //touche du haut + echelle
-            if (keyboardState.IsKeyDown(Keys.Up) && IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map))
+            if (keyboardState.IsKeyDown(Keys.Up) && (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map) || IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map)))
             {
                 Animation = TypeAnimation.climb;
                 toucheBordFenetre = Position.Y - _texture.TextureRegion.Height / 2 <= 0;
                 //Collision = IsCollision(positionColonnePerso, positionLignePerso - 1);
                 deplacement = -Vector2.UnitY;
             } // touche du bas + echelle
-            else if (keyboardState.IsKeyDown(Keys.Down) && IsCollision(positionLignePerso, positionColonnePerso + 1, layerClimb, _map))
+            else if (keyboardState.IsKeyDown(Keys.Down) && IsCollision(positionColonnePerso, positionLignePerso , layerClimb, _map))
             {
                 Animation = TypeAnimation.climb;
                 toucheBordFenetre = Position.Y + _texture.TextureRegion.Height / 2 >= Game1.ScreenHeight;

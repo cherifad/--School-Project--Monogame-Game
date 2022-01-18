@@ -20,19 +20,28 @@ namespace Jeux.Perso
         Random random = new Random();
         public bool _visible = true;
 
+        bool toucheBordFenetreDroite ;
+        bool toucheBordFenetreGauche ;
+        private enum LastBord { droite, gauche, aucun };
+        private LastBord last = LastBord.aucun;
+
         int _ranX, _ranY;
 
         public void Move(GameTime gameTime, TiledMap _map, string layerCollision, GraphicsDevice graphicsDevice, Sprite player)
         {
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            float walkSpeed = elapsedTime * 300;
+            float walkSpeed = elapsedTime * 150;
 
             float positionColonnePerso = (Position.X / _map.TileWidth);
 
             float positionLignePerso = ((this.Position.Y + this._texture.TextureRegion.Height / 2) / _map.TileHeight);
 
+
+
+
             Velocity.X = 0;
 
+            /*
             if (this.Position.Y > player.Position.Y)
             {
                 walkSpeed += 100;
@@ -43,12 +52,59 @@ namespace Jeux.Perso
                     deplacement = -Vector2.UnitX;
                 else if (Position.X < player.Position.X)
                     deplacement = Vector2.UnitX;
-            }
-            else
-                deplacement = Vector2.UnitX;
+            }*/
 
-            if ((!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
-               )
+
+            //touche bord fenetre ou plus de sol
+            if (Position.X + _texture.TextureRegion.Width / 2 <= 0 || !IsCollision(positionColonnePerso-1, positionLignePerso, layerCollision, _map))
+            {
+                toucheBordFenetreGauche = true;
+            }
+            else if (Position.X + _texture.TextureRegion.Width /2 >= Game1.ScreenWidth || !IsCollision(positionColonnePerso+1, positionLignePerso, layerCollision, _map))
+            {
+                toucheBordFenetreDroite = true;
+            }
+
+            if (toucheBordFenetreDroite == true)
+            {
+                toucheBordFenetreDroite = false;
+                last = LastBord.droite;
+            }
+            else if(toucheBordFenetreGauche == true)
+            {
+                toucheBordFenetreGauche = false;
+                last = LastBord.gauche;
+            }
+
+
+            if (last == LastBord.droite && IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
+            {
+                deplacement = -Vector2.UnitX;
+            }
+            else if (last == LastBord.gauche && IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
+            {
+                deplacement = Vector2.UnitX;
+            }
+            else if (last == LastBord.droite)
+            {
+                deplacement = -Vector2.UnitX;
+            }
+            else if (last == LastBord.gauche)
+            {
+                deplacement = Vector2.UnitX;
+            }
+
+
+            Console.WriteLine(last);
+
+            //deplacement
+            if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) && toucheBordFenetreGauche == false  && toucheBordFenetreDroite == false)
+            {
+                Position += walkSpeed * deplacement;
+            }
+
+            //gravite
+            if ((!IsCollision(positionColonnePerso-1, positionLignePerso, layerCollision, _map)))
             {
                 Velocity.Y += Gravity.Y * elapsedTime;
             }
@@ -57,7 +113,6 @@ namespace Jeux.Perso
 
             Position += Velocity * elapsedTime;
 
-            Position += walkSpeed * deplacement;
 
             Console.WriteLine((this.Position.Y == player.Position.Y));
         }
