@@ -41,6 +41,8 @@ namespace Jeux.Screen
 
         private bool _hasStarted = false;
 
+        private List<Sprite> test;
+
         public Test(Game1 game) : base(game)
         {
             _game1 = game;            
@@ -61,7 +63,24 @@ namespace Jeux.Screen
             ScreenWidth = graphics.PreferredBackBufferWidth;
             ScreenHeight = graphics.PreferredBackBufferHeight;
 
-            Restart();
+            var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
+            var playerTexture = new AnimatedSprite(player);
+            var enemy = Content.Load<SpriteSheet>("test/enemy.sf", new JsonContentLoader());
+            var enemyTexture = new AnimatedSprite(enemy);
+
+            test = new List<Sprite>()
+           {
+               new Player(playerTexture)
+               {
+                   Position = new Vector2(10, 10),
+               },
+               new Enemy(enemyTexture)
+               {
+                   Position = Vector2.Zero,
+               }
+           };
+
+          //  Restart();
 
             base.LoadContent();
         }
@@ -73,8 +92,11 @@ namespace Jeux.Screen
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 _hasStarted = true;
 
-            foreach (var sprite in _sprites)
-                sprite.Update(gameTime, _sprites);
+            /* foreach (var sprite in _sprites)
+                 sprite.Update(gameTime, _sprites);*/
+            foreach (Sprite sprite in test)
+                sprite.Update(gameTime, _tiledMap, "sol", "echelles", GraphicsDevice, test[0]);
+
         }
 
         public override void Draw(GameTime gameTime)
@@ -84,26 +106,11 @@ namespace Jeux.Screen
 
             _tiledMapRenderer.Draw();
 
-            foreach (var sprite in _sprites)
+           foreach (var sprite in test)
                 sprite.Draw(spriteBatch);
 
+
             spriteBatch.End();
-        }
-
-        private void Restart()
-        {
-            var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
-            var playerTexture = new AnimatedSprite(player);
-
-            _sprites = new List<Sprite>()
-      {
-        new Player(playerTexture)
-        {
-          Position = new Vector2(100, 100),
-        }
-      };
-
-            _hasStarted = false;
         }
 
     }

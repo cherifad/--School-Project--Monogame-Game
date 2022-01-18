@@ -34,7 +34,7 @@ namespace Jeux.Screen
 
         private int speed = 10;
 
-        Vector2 velocity;
+        Vector2 velocity, Position;
 
         readonly Vector2 gravity = new Vector2(0, 600f);
 
@@ -214,7 +214,7 @@ namespace Jeux.Screen
               }*/
 
             //deplacement
-            if (iscollision //IsCollision(positionColonnePerso, positionLignePerso, "sol")
+            if (IsCollision(positionColonnePerso, positionLignePerso, "sol")
                 || !toucheBordFenetre
                 || IsCollision(positionColonnePerso, positionLignePerso - 1, "echelles")
                 || IsCollision(positionColonnePerso, positionLignePerso + 1, "echelles"))
@@ -229,7 +229,9 @@ namespace Jeux.Screen
                 && !toucheBordFenetre
                 && !IsCollision(positionColonnePerso, positionLignePerso - 1, "echelles")
                 && !IsCollision(positionColonnePerso, positionLignePerso + 1, "echelles"))
+            {
                 velocity.Y += gravity.Y * elapsedTime;
+            }
             /*else if (IsCollision(positionColonnePerso, positionLignePerso, "echelles"))
                 velocity.Y = 0;*/
             else
@@ -242,14 +244,17 @@ namespace Jeux.Screen
             if (IsCollision(positionColonnePerso, positionLignePerso + 1, "sol"))
                 jump = true;
 
+           // _game1.PositionE = _game1.PositionPerso;
+
 
             // velocity.Y = 0;
             float test = _map[_mapEnCour].ObjectLayers[0].Objects.Length;
 
             //debug
             Console.WriteLine($"Colision sol : {IsCollision(positionColonnePerso, positionLignePerso, "sol")}" +
-                $"\nCollision echelle X : {IsCollision(positionColonnePerso, positionLignePerso, 3, "echelles")}" +
-                $"\nsaut : {jump}");
+                $"\nCollision echelle X : {IsCollision(positionColonnePerso, positionLignePerso, "echelles")}" +
+                $"\nsaut : {jump}" +
+                $"\n{_game1.PositionPerso} {_game1.PositionE}");
             
 
 
@@ -257,6 +262,9 @@ namespace Jeux.Screen
                 _game1.PositionPerso = Vector2.Zero;
 
             _game1.PositionPerso += velocity * elapsedTime;
+            
+
+            Play(_game1.PositionE, gameTime);
 
             // _joueur.Move(gameTime, _map, "sol"", "echelles");
 
@@ -273,6 +281,7 @@ namespace Jeux.Screen
             _game1.GraphicsDevice.Clear(Color.Red);
             _game1.SpriteBatch.Begin();
             _game1.SpriteBatch.Draw(_game1.Perso, _game1.PositionPerso);
+            _game1.SpriteBatch.Draw(_game1.Enemysolo, _game1.PositionE);
             //_game1.SpriteBatch.Draw(_joueur.JoueurP, _joueur.Position);
             _renduMap[_mapEnCour].Draw();
             _game1.SpriteBatch.End();
@@ -339,22 +348,28 @@ namespace Jeux.Screen
             return false;
         }
 
-        private bool IsCollision(float x, float y, int numeroTuile, string layer)
+        public void Play(Vector2 joueur, GameTime gameTime)
         {
-            TiledMapTile? tile;
-            TiledMapTileLayer _obstacleLayer;
-            _obstacleLayer = _map[_mapEnCour].GetLayer<TiledMapTileLayer>(layer);
-            if (_obstacleLayer.TryGetTile((ushort)x, (ushort)y, out tile))
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float walkSpeed = elapsedTime * 300;
+            Vector2 deplacementi = Vector2.UnitX;
+
+            if (_game1.PositionE.Y < _game1.PositionPerso.Y)
             {
-                if (!tile.Value.IsBlank)
-                {
-                    if (tile.Value.GlobalIdentifier == numeroTuile)
-                        return true;
-                    else
-                        return false;
-                }
+                walkSpeed += 100;
+                if (Math.Abs(Position.X - joueur.X) < 2)
+                    //frappe le joueur;
+                    deplacementi = -Vector2.Zero;
+                else if (_game1.PositionE.X > joueur.X)
+                    deplacementi = -Vector2.UnitX;
+                else if (_game1.PositionE.X < joueur.X)
+                    deplacementi = Vector2.UnitX;
             }
-            return false;
+            else
+                deplacementi = Vector2.UnitX;
+
+
+            _game1.PositionE += walkSpeed * deplacementi;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Tiled;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,10 +15,6 @@ namespace Jeux.Perso
         {
         }
 
-
-        private Vector2 _position;
-        private Vector2 _velocity;
-        private AnimatedSprite _texture;
         private Vector2 deplacement = Vector2.Zero;
 
         Random random = new Random();
@@ -24,30 +22,66 @@ namespace Jeux.Perso
 
         int _ranX, _ranY;
 
-        public void Play(Player joueur, GameTime gameTime)
+        public void Move(GameTime gameTime, TiledMap _map, string layerCollision, GraphicsDevice graphicsDevice, Sprite player)
         {
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             float walkSpeed = elapsedTime * 300;
 
-            if (Position.Y == joueur.Position.Y)
+            float positionColonnePerso = (Position.X / _map.TileWidth);
+
+            float positionLignePerso = ((this.Position.Y + this._texture.TextureRegion.Height / 2) / _map.TileHeight);
+
+            Velocity.X = 0;
+
+            if (this.Position.Y > player.Position.Y)
             {
                 walkSpeed += 100;
-                if (Math.Abs(Position.X - joueur.Position.X) == 2)
+                if (Math.Abs(Position.X - player.Position.X) < 2)
                     //frappe le joueur;
                     deplacement = Vector2.Zero;
-                else if (Position.X > joueur.Position.X)
+                else if (Position.X > player.Position.X)
                     deplacement = -Vector2.UnitX;
-                else if (Position.X < joueur.Position.X)
+                else if (Position.X < player.Position.X)
                     deplacement = Vector2.UnitX;
             }
             else
                 deplacement = Vector2.UnitX;
 
+            if ((!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
+               )
+            {
+                Velocity.Y += Gravity.Y * elapsedTime;
+            }
+            else
+                Velocity.Y = 0;
+
+            Position += Velocity * elapsedTime;
 
             Position += walkSpeed * deplacement;
+
+            Console.WriteLine((this.Position.Y == player.Position.Y));
         }
-        
-        public Vector2 Position { get => this._position; set => this._position = value; }
-        public AnimatedSprite Texture { get => this._texture; set => this._texture = value; }
+
+        public override void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
+        {
+            Move(gameTime, _map, layerCollision, graphicsDevice, player);
+        }
+
+        private bool IsCollision(float x, float y, string layer, TiledMap _map)
+        {
+            TiledMapTile? tile;
+            TiledMapTileLayer _obstacleLayer = _map.GetLayer<TiledMapTileLayer>(layer);
+            _obstacleLayer = _map.GetLayer<TiledMapTileLayer>(layer);
+            if (_obstacleLayer.TryGetTile((ushort)x, (ushort)y, out tile) == false)
+            {
+                return false;
+            }
+            if (!tile.Value.IsBlank)
+            {
+                return true;
+            }
+            return false;
+        }
     }
+
 }

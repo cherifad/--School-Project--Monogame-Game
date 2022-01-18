@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Tiled;
 using System.Collections.Generic;
 
 namespace Jeux.Perso
@@ -38,9 +39,9 @@ namespace Jeux.Perso
             _texture = texture;
         }
 
-        public virtual void Update(GameTime gameTime, List<Sprite> sprites)
+        public virtual void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {
-
+            
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
