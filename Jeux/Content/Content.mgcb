@@ -10,11 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Content.Pipeline.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Graphics.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Tiled.dll
-/reference:D:\adlen\Download\les5\les5\Newtonsoft.Json.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Graphics.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Tiled.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -148,6 +148,18 @@
 /processorParam:TextureFormat=Color
 /build:map/ecranAcceuil/bouttonExit.png
 
+#begin map/ecranAcceuil/bouttonLangues.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonLangues.png
+
 #begin map/ecranAcceuil/bouttonParametre.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -159,6 +171,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:map/ecranAcceuil/bouttonParametre.png
+
+#begin map/ecranAcceuil/bouttonRules.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/bouttonRules.png
 
 #begin map/ecranAcceuil/bouttonSon.png
 /importer:TextureImporter
@@ -183,6 +207,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:map/ecranAcceuil/bouttonStart.png
+
+#begin map/ecranAcceuil/parchemin.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/parchemin.png
+
+#begin map/ecranAcceuil/titre.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranAcceuil/titre.png
 
 #begin map/ecranMort/craquage.png
 /importer:TextureImporter
