@@ -19,27 +19,29 @@ namespace Jeux.Perso
 
         int _ranX, _ranY;
 
-        public void Play(Player joueur, GameTime gameTime)
+        public static void Play(Enemy enemy, AnimatedSprite joueur, GameTime gameTime)
         {
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             float walkSpeed = elapsedTime * 300;
 
-            if (Position.Y == joueur.Position.Y)
+            if (enemy.Position.Y == joueur.TextureRegion.Y)
             {
                 walkSpeed += 100;
-                if (Math.Abs(Position.X - joueur.Position.X) == 2)
+                if (Math.Abs(enemy.Position.X - joueur.TextureRegion.X) == 2)
                     //frappe le joueur;
-                    deplacement = Vector2.Zero;
-                else if (Position.X > joueur.Position.X)
-                    deplacement = -Vector2.UnitX;
-                else if (Position.X < joueur.Position.X)
-                    deplacement = Vector2.UnitX;
+                    enemy.deplacement = Vector2.Zero;
+                else if (enemy.Position.X > joueur.TextureRegion.X)
+                    enemy.deplacement = -Vector2.UnitX;
+                else if (enemy.Position.X < joueur.TextureRegion.X)
+                    enemy.deplacement = Vector2.UnitX;
             }
             else
-                deplacement = Vector2.UnitX;
+                enemy.deplacement = Vector2.UnitX;
 
 
-            Position += walkSpeed * deplacement;
+            enemy.Position += walkSpeed * enemy.deplacement;
         }
+
+
     }
 }

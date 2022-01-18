@@ -266,6 +266,11 @@ namespace Jeux.Screen
             _camera.LookAt(_cameraPosition);
 
             _game1.Perso.Play(_game1.Animation.ToString());
+
+            foreach (var sprite in _game1.Enemy)
+            {
+                Enemy.Play(sprite, _game1.Perso, gameTime);
+            }
             _game1.Perso.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
