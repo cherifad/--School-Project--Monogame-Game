@@ -17,6 +17,13 @@ namespace Jeux.Perso
         public bool IsRemoved = false;
         private TypeAnimation _animation;
 
+        public enum TypeAnimation
+        {
+            walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb,
+            enemyWalkLeft, enemyWalkRight, enemyHitLeft, enemyHitRight,
+            witchWalkLeft, witchWalkRight, witchHitLeft, witchHitRight
+        };
+
         public TypeAnimation Animation { get => this._animation; set => this._animation = value; }
 
         public Vector2 Gravity
@@ -41,7 +48,9 @@ namespace Jeux.Perso
 
         public virtual void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {
-            
+
+            _texture.Play(Animation.ToString());
+            _texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

@@ -26,7 +26,9 @@ namespace Jeux.Screen
 
         private List<Sprite> _sprites;
 
-        bool _switch = true;
+        bool _switch = true, _control = true;
+
+        private AnimatedSprite enemyTexture;
 
         public Level(Game1 game) : base(game)
         {
@@ -56,7 +58,7 @@ namespace Jeux.Screen
             var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
             var playerTexture = new AnimatedSprite(player);
             var enemy = Content.Load<SpriteSheet>("test/enemy.sf", new JsonContentLoader());
-            var enemyTexture = new AnimatedSprite(enemy);
+            enemyTexture = new AnimatedSprite(enemy);
 
             _sprites = new List<Sprite>()
            {
@@ -66,7 +68,7 @@ namespace Jeux.Screen
                },
                new Enemy(enemyTexture)
                {
-                   Position = Vector2.Zero,
+                   Position = new Vector2(100, 200),
                }
            };
 
@@ -89,14 +91,26 @@ namespace Jeux.Screen
                     y++;
                     i--;
                 }
+                for (int j = 0; j < _map[_mapEnCour].ObjectLayers[0].Objects.Length; j++)
+                {
+                    _sprites.Add(
+                        new Enemy(enemyTexture)
+                        {
+                            Position = _map[_mapEnCour].ObjectLayers[0].Objects[j].Position,
+                        }
+                        ); 
+                }
                 _switch = false;
             }
+
+            Console.WriteLine(_map[_mapEnCour].ObjectLayers[0].Objects.Length);
 
 
             if (_sprites[0].Rectangle.Intersects(_start[0]))
             {
                 _mapEnCour++;
-                _switch = true;            
+                _switch = true;
+                _sprites[0].Position = Vector2.Zero;
             }
 
             foreach (Sprite sprite in _sprites)
