@@ -14,7 +14,7 @@ using System;
 
 namespace Jeux.Screen
 {
-    class Level : GameScreen
+    public class Level : GameScreen
     {
         private Game1 _game1; // pour récupérer la fenêtre de jeu principale
 
