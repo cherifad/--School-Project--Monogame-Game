@@ -31,6 +31,9 @@ namespace Jeux.Screen
 		private Vector2 _positionParchemin;
 		private Texture2D _image1;
 
+		//pages 
+		private int _numeroPage = 1;
+
 		public Rules(Game1 game) : base(game)
 		{
 			_myGame = game;
@@ -71,8 +74,13 @@ namespace Jeux.Screen
 
 		private void BoutonNext_Click(object sender, EventArgs e)
 		{
-			_myGame.ScreenManager.LoadScreen(_myGame._screenRules2);
+			_numeroPage = _numeroPage + 1;
 
+			if (_numeroPage == 3)
+            {
+				_myGame.ScreenManager.LoadScreen(_myGame._screenParametre);
+				_numeroPage = 1;
+            }
 		}
 
 		public override void Update(GameTime gameTime)
@@ -99,15 +107,33 @@ namespace Jeux.Screen
 
 
 			//texte
+
 			if (_myGame._langue == Game1.Langue.English)
 			{
-				spriteBatch.DrawString(_myGame._font2, "How to play ?", new Vector2(610, 148), Color.Black);
-				spriteBatch.DrawString(_myGame._fontExit, "Use your keyboard arrow to make your \ncharacter move foward and climb the \nladders.", new Vector2(550, 700), Color.Black);
+				if (_numeroPage == 1)
+				{
+					spriteBatch.DrawString(_myGame._font2, "How to play ?", new Vector2(610, 148), Color.Black);
+					spriteBatch.DrawString(_myGame._fontExit, "Use your keyboard arrow to make your \ncharacter move foward and climb the \nladders.", new Vector2(550, 700), Color.Black);
+				}
+				else if (_numeroPage == 2)
+                {
+					spriteBatch.DrawString(_myGame._font2, "How to play ?", new Vector2(610, 148), Color.Black);
+					spriteBatch.DrawString(_myGame._fontExit, "Beware of the ennemies you'll \nencounter on your way", new Vector2(550, 700), Color.Black);
+				}
 			}
 			else if (_myGame._langue == Game1.Langue.French)
 			{
-				spriteBatch.DrawString(_myGame._font2, "Comment jouer ?", new Vector2(500, 150), Color.Black);
-				spriteBatch.DrawString(_myGame._fontExit, "Utilise les fleches de ton clavier pour \nfaire avancer le personnage et pour \nmonter les echelles.", new Vector2(550, 700), Color.Black);
+				if (_numeroPage == 1)
+                {
+					spriteBatch.DrawString(_myGame._font2, "Comment jouer ?", new Vector2(500, 150), Color.Black);
+					spriteBatch.DrawString(_myGame._fontExit, "Utilise les fleches de ton clavier pour \nfaire avancer le personnage et pour \nmonter les echelles.", new Vector2(550, 700), Color.Black);
+				}
+				else if (_numeroPage == 2)
+                {
+					spriteBatch.DrawString(_myGame._font2, "Comment jouer ?", new Vector2(500, 150), Color.Black);
+					spriteBatch.DrawString(_myGame._fontExit, "Mefie-toi des ennemis que tu \nrencontreras sur ton chemin.", new Vector2(650, 700), Color.Black);
+				}
+
 
 			}
 

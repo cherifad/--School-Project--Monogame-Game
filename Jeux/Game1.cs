@@ -32,7 +32,7 @@ namespace Jeux
             public Home _screenHome;
             public Parametres _screenParametre;
             public Rules _screenRules;
-            public Rules2 _screenRules2;
+
             private Test _screentest;
 
             private Ecran _currentScreen;
@@ -189,11 +189,11 @@ namespace Jeux
                 _screentest = new Test(this);
                 _screenParametre = new Parametres(this);
                 _screenRules = new Rules(this);
-                _screenRules2 = new Rules2(this);
 
-             //  ScreenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
+
+            //  ScreenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
             // _screenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
-                _currentScreen = Ecran.Home;
+            _currentScreen = Ecran.Home;
 
                 //musique
                 _music = Content.Load<Song>("music");
