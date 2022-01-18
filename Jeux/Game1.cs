@@ -14,25 +14,18 @@ using System.Collections.Generic;
 
 namespace Jeux
 {
-        public enum TypeAnimation { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb };
         public class Game1 : Game
         {
             private GraphicsDeviceManager _graphics;
 
             private SpriteBatch _spriteBatch;
 
-            private AnimatedSprite _perso, _ennemys;
-
-        private List<AnimatedSprite> _ennemy = new List<AnimatedSprite>();
-
-            private TypeAnimation _animation, _animationE;
-
             //
-            public enum Ecran { Home, Level1 };
-            public Level _screenLevel1;
+            public enum Ecran { Home, Level };
             public Home _screenHome;
             public Parametres _screenParametre;
             public Rules _screenRules;
+        public Level _screenGame;
 
             private Test _screentest;
 
@@ -84,45 +77,7 @@ namespace Jeux
                 }
             }
 
-            public AnimatedSprite Perso
-            {
-                get
-                {
-                    return this._perso;
-                }
-
-                set
-                {
-                    this._perso = value;
-                }
-            }
-
-            public Vector2 PositionPerso
-            {
-                get
-                {
-                    return this._positionPerso;
-                }
-
-                set
-                {
-                    this._positionPerso = value;
-                }
-            }
-
-            public TypeAnimation Animation
-            {
-                get
-                {
-                    return this._animation;
-                }
-
-                set
-                {
-                    this._animation = value;
-                }
-            }
-
+         
             public GraphicsDeviceManager Graphics
             {
                 get
@@ -157,11 +112,7 @@ namespace Jeux
             protected override void Initialize()
             {
             // TODO: Add your initialization logic here
-            //        var _positionPerso = Vector2.Zero; //new Vector2(Level1.WIDTH_FENETRE / 2, Level1.HEIGHT_FENETRE / 2);
-            var _positionPerso = new Vector2(10, 10);
-            PositionE = new Vector2(0, 868);
-            _positionEnemy.X = MathHelper.Clamp(PositionE.X, 0, Game1.ScreenWidth);
-            _positionEnemy.Y = MathHelper.Clamp(PositionE.Y, 0, Game1.ScreenHeight);
+           // _positionEnemy.Y = MathHelper.Clamp(PositionE.Y, 0, Game1.ScreenHeight);
             Graphics.PreferredBackBufferWidth = 1920;
             Graphics.PreferredBackBufferHeight = 992;
             //Graphics.IsFullScreen = true;
@@ -182,15 +133,10 @@ namespace Jeux
 
             protected override void LoadContent()
             {
-                SpriteBatch = new SpriteBatch(GraphicsDevice);
-
-                SpriteSheet animation = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
-            SpriteSheet animationE = Content.Load<SpriteSheet>("test/enemy.sf", new JsonContentLoader());
-                Perso = new AnimatedSprite(animation);
-                
-            //
+                SpriteBatch = new SpriteBatch(GraphicsDevice);                
+            
                 _screenHome = new Home(this);
-                _screenLevel1 = new Level(this);
+                _screenGame = new Level(this);
                 _screentest = new Test(this);
                 _screenParametre = new Parametres(this);
                 _screenRules = new Rules(this);
@@ -217,13 +163,7 @@ namespace Jeux
 
         protected override void Update(GameTime gameTime)
         {
-            /*
-            if(_screenHome.start)
-                ScreenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
 
-            if(_screenHome.exit)
-                Exit();
-            */
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -235,59 +175,7 @@ namespace Jeux
             base.Update(gameTime);
         }
 
-        public List<AnimatedSprite> Enemy
-        {
-            get
-            {
-                return this._ennemy;
-            }
-
-            set
-            {
-                this._ennemy = value;
-            }
-        }
-
-        public AnimatedSprite Enemysolo
-        {
-            get
-            {
-                return this._ennemys;
-            }
-
-            set
-            {
-                this._ennemys = value;
-            }
-        }
-
-        public Vector2 PositionE
-        {
-            get
-            {
-                return this._positionEnemy;
-            }
-
-            set
-            {
-                this._positionEnemy = value;
-            }
-        }
-
-        public TypeAnimation AnimationE
-        {
-            get
-            {
-                return this._animationE;
-            }
-
-            set
-            {
-                this._animationE = value;
-            }
-        }
-
-        protected override void Draw(GameTime gameTime)
+           protected override void Draw(GameTime gameTime)
             {
                 GraphicsDevice.Clear(Color.Black);
 

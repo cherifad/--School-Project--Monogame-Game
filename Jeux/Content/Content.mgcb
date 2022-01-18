@@ -10,11 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
-/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.dll
-/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Graphics.dll
-/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Tiled.dll
-/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\Newtonsoft.Json.dll
+/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Content.Pipeline.dll
+/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.dll
+/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Graphics.dll
+/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Tiled.dll
+/reference:D:\adlen\Download\les5\les5\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -124,18 +124,6 @@
 /processor:TiledMapProcessor
 /build:map/5Eta.tmx
 
-#begin map/day sky.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:map/day sky.png
-
 #begin map/ecranAcceuil/bg_all.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -160,18 +148,6 @@
 /processorParam:TextureFormat=Color
 /build:map/ecranAcceuil/bouttonExit.png
 
-#begin map/ecranAcceuil/bouttonLangues.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:map/ecranAcceuil/bouttonLangues.png
-
 #begin map/ecranAcceuil/bouttonParametre.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -183,18 +159,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:map/ecranAcceuil/bouttonParametre.png
-
-#begin map/ecranAcceuil/bouttonRules.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:map/ecranAcceuil/bouttonRules.png
 
 #begin map/ecranAcceuil/bouttonSon.png
 /importer:TextureImporter
@@ -220,7 +184,7 @@
 /processorParam:TextureFormat=Color
 /build:map/ecranAcceuil/bouttonStart.png
 
-#begin map/ecranAcceuil/parchemin.png
+#begin map/ecranMort/craquage.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -230,9 +194,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:map/ecranAcceuil/parchemin.png
+/build:map/ecranMort/craquage.png
 
-#begin map/ecranAcceuil/titre.png
+#begin map/ecranMort/craquage2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -242,7 +206,36 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:map/ecranAcceuil/titre.png
+/build:map/ecranMort/craquage2.png
+
+#begin map/ecranMort/ecranmortsansboutton.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:map/ecranMort/ecranmortsansboutton.tmx
+
+#begin map/ecranMort/ImmagebouttonExit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranMort/ImmagebouttonExit.png
+
+#begin map/ecranMort/mortcouleur.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/ecranMort/mortcouleur.png
 
 #begin map/eta1backround/day sky.png
 /importer:TextureImporter
@@ -255,6 +248,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:map/eta1backround/day sky.png
+
+#begin map/eta2backround/grotte.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:map/eta2backround/grotte.png
 
 #begin map/eta3background/landscape.png
 /importer:TextureImporter
@@ -423,6 +428,21 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:map/etabossbackground/night.png
+
+#begin map/para1.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:map/para1.tmx
+
+#begin map/para2.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:map/para2.tmx
+
+#begin map/para3.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:map/para3.tmx
 
 #begin map/Vraie.png
 /importer:TextureImporter

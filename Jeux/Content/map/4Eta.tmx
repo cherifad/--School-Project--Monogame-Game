@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="60" height="31" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="17">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="60" height="31" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="22">
  <tileset firstgid="1" name="Vraie" tilewidth="32" tileheight="32" tilecount="99" columns="11">
   <image source="Vraie.png" trans="a349a4" width="355" height="288"/>
  </tileset>
@@ -225,26 +225,6 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="11" name="collisions">
-  <object id="1" x="-1.33333" y="832" width="1922.67" height="33.3333"/>
-  <object id="2" x="1760" y="256" width="40" height="33.3333"/>
-  <object id="3" x="1848" y="256" width="40" height="33.3333"/>
-  <object id="4" x="1590.67" y="257.333" width="41.3333" height="30.6667"/>
-  <object id="5" x="1502.67" y="254.667" width="40" height="34.6667"/>
-  <object id="6" x="1336" y="256" width="38.6667" height="32"/>
-  <object id="7" x="1248" y="254.667" width="38.6667" height="34.6667"/>
-  <object id="8" x="989.333" y="254.667" width="40" height="33.3333"/>
-  <object id="9" x="1082.67" y="256" width="37.3333" height="32"/>
-  <object id="10" x="824" y="256" width="40" height="30.6667"/>
-  <object id="11" x="736" y="256" width="38.6667" height="32"/>
-  <object id="12" x="481.333" y="256" width="37.3333" height="32"/>
-  <object id="13" x="566.667" y="256" width="41.3333" height="32"/>
- </objectgroup>
- <objectgroup id="15" name="phrase" offsetx="-432" offsety="444">
-  <object id="16" x="428.731" y="424.062" width="386.539" height="99.8763" rotation="359.728">
-   <text fontfamily="Segoe UI Black" pixelsize="47" wrap="1" color="#aa0000" bold="1">FOURTH STAGE</text>
-  </object>
- </objectgroup>
  <layer id="4" name="echelles" width="60" height="31">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -280,4 +260,21 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="19" name="ennemi">
+  <object id="20" x="704" y="802" width="130" height="30"/>
+  <object id="21" x="1374" y="804" width="130" height="28"/>
+ </objectgroup>
+ <objectgroup id="15" name="phrase" offsetx="-432" offsety="444">
+  <object id="16" x="428.731" y="424.062" width="386.539" height="99.8763" rotation="359.728">
+   <text fontfamily="Segoe UI Black" pixelsize="47" wrap="1" color="#aa0000" bold="1">FOURTH STAGE</text>
+  </object>
+ </objectgroup>
+ <objectgroup id="18" name="fin">
+  <object id="19" x="1081" y="170.75">
+   <polygon points="0,0 0.25,8.75 8.25,11.25 11.5,9.25 19,16 16.5,19.75 21.5,26.5 23.5,36 28,37 27.75,49.25 23,49 23,55 23,60.25 -41.5,59.75 -41.5,49 -45.5,49.25 -45.5,37.25 -41,37 -40.5,28.5 -34.75,19.75 -37.75,16.75 -29.75,9 -26.25,12.5 -17.5,8.25 -17.5,-0.5"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="16" name="debut">
+  <object id="17" x="2" y="736" width="122" height="102"/>
+ </objectgroup>
 </map>

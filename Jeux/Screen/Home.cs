@@ -79,7 +79,7 @@ namespace Jeux.Screen
 		//boutons
 		private void BouttonStart_Click(object sender, EventArgs e)
 		{
-			_myGame.ScreenManager.LoadScreen(_myGame._screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
+			_myGame.ScreenManager.LoadScreen(_myGame._screenGame, new FadeTransition(GraphicsDevice, Color.Black));
 		}
 
 		private void BouttonParametre_Click(object sender, EventArgs e)
