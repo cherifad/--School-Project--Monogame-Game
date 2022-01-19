@@ -14,7 +14,6 @@ namespace Jeux.Perso
     public class Player : Sprite
     {
         bool idleRight = true, jump = true;
-        Song _hit, _fall, _die;
         public Player(AnimatedSprite texture) 
             : base(texture)
         {
@@ -126,8 +125,8 @@ namespace Jeux.Perso
 
             if (Position.Y > Game1.ScreenHeight)
             {
-                Health = 0;
-                Position = Vector2.Zero;
+                Health --;
+                Position = new Vector2(5, 800);
             }
 
             //si en colision avec le sol, il peut sauter
@@ -139,7 +138,7 @@ namespace Jeux.Perso
             Position += Velocity * elapsedTime;
 
             if (Position.Y > Game1.ScreenHeight)
-                Health = 0;
+                Health --;
 
             //affichage
             Texture.Play(AnimationP.ToString());

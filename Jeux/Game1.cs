@@ -160,6 +160,8 @@ namespace Jeux
                 ScreenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
             }
 
+
+
             base.Update(gameTime);
         }
 

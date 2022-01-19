@@ -4,14 +4,11 @@ using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using Jeux.Perso;
 using System.Collections.Generic;
-using System;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 using Sprite = Jeux.Perso.Sprite;
 using MonoGame.Extended.Content;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
 
 namespace Jeux.Screen
 {
@@ -23,17 +20,14 @@ namespace Jeux.Screen
         //map
         private List<TiledMap> _map = new List<TiledMap>(), _parametres = new List<TiledMap>(); 
         private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>(), _renduParametres = new List<TiledMapRenderer>();
-        private int _mapEnCour;
+        public int _mapEnCour;
 
         //idk
-        private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>();
+        private List<Rectangle> _start = new List<Rectangle>();
         private List<Sprite> _player, _enemys = new List<Sprite>();
         private AnimatedSprite enemyTexture;
 
-        //kill and lives
-        private int _kill = 0, _lives = 3;
-
-        bool _switch = true, _spam = false, _dead = false;
+        bool _switch = true, _spam = false, _dead = false; //switch -> pour changer de map, _spam -> pour eviter les doubles clic, _dead -> pour la mort
 
         public Level(Game1 game) : base(game)
         {
@@ -109,7 +103,7 @@ namespace Jeux.Screen
                     i--;
                 }
 
-                for (int j = 0; j < _map[_mapEnCour].ObjectLayers[0].Objects.Length; j++)
+                for (int j = 0; j < _map[_mapEnCour].ObjectLayers[0].Objects.Length; j++) //ajout des ennemis a des point predefinis sur la map
                 {
                     _enemys.Add(
                     new Enemy(enemyTexture)
@@ -121,8 +115,6 @@ namespace Jeux.Screen
 
                 _switch = false;
             }
-            //ajout des enemis
-
 
             //ennemi supprimer si sa vie est 0
             for (int i = 0; i < _enemys.Count; i++)
@@ -131,7 +123,6 @@ namespace Jeux.Screen
                 {
                     _enemys.RemoveAt(i);
                     i--;
-                    _kill++;
                 }
             }
 
@@ -142,7 +133,7 @@ namespace Jeux.Screen
             if (_player[0].Rectangle.Intersects(_start[0]))
             {
                 _mapEnCour++;
-                _player[0].Position = Vector2.Zero;
+                _player[0].Position = new Vector2(10, 800);
                 _switch = true;
             }
 
@@ -179,25 +170,16 @@ namespace Jeux.Screen
                 sprite.Draw(_game1.SpriteBatch);
 
             //dessin de la map
-            _renduMap[_mapEnCour].Draw();
+            if(_mapEnCour < 5)
+                _renduMap[_mapEnCour].Draw();
+            else
+            {
+                _mapEnCour = 0;
+            }
 
             //dessin de l'ecran de mort
            if (_dead)
                 _renduParametres[2].Draw();
-
-
-
-            //texte
-            if (_game1._langue == Game1.Langue.English)
-            {
-                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Kill count : {_kill}", new Vector2(20, 20), Color.Black);
-                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Lives : {_lives}", new Vector2(20, 40), Color.Black);
-            }
-            else if (_game1._langue == Game1.Langue.French)
-            {
-                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Ennemis tues : {_kill}", new Vector2(20, 20), Color.Black);
-                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Vies : {_lives}", new Vector2(20, 40), Color.Black);
-            }
 
             _game1.SpriteBatch.End();
         }

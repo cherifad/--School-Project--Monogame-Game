@@ -18,7 +18,7 @@ namespace Jeux.Perso
 
         //deplacement et echelles
         private Vector2 deplacement = Vector2.Zero;
-        bool echelleHaut = false, echelleBas = false;
+        bool echelleHaut = false, echelleBas = false, right = false;
 
         //bords
         private enum LastBord { droite, gauche, aucun };
@@ -104,23 +104,27 @@ namespace Jeux.Perso
             if (keyboardState.IsKeyUp(Keys.X))
                 _spam = false;
 
+            //mouvement si le joueur est detecter
             if (_detection)
             {
                 walkSpeed = elapsedTime * 200;
                 if (Enumerable.Range(start, end).Contains(Rectangle.Y))
                 {
-                    if (Math.Abs(Position.X - player.Position.X) < 5 && keyboardState.IsKeyDown(Keys.X) && !_spam)
+                    if (Math.Abs(Position.X - player.Position.X) < 5 && keyboardState.IsKeyDown(Keys.X) && !_spam) // si le joueur est proche de l'ennemi et qu'il appui sur x
                     {
                         Health--;
                         deplacement = Vector2.Zero;
                         _spam = true;
                     }
-                    else if (Math.Abs(this.Position.X - player.Position.X) < 2 && keyboardState.IsKeyUp(Keys.X) && timer > 0)
+                    else if (Math.Abs(this.Position.X - player.Position.X) < 2 && keyboardState.IsKeyUp(Keys.X) && timer > 0) // si le joueur est proche de l'ennemi et qu'il n'appui PAS sur x
                     {
-                        hit = true;
+                        hit = true; // le joueur est frappé
                         deplacement = Vector2.Zero;
-                        AnimationE = TypeAnimationEnnemi.enemyHitLeft;
-                        timer -= (int)elapsedTime;
+                        if(right)
+                            AnimationE = TypeAnimationEnnemi.enemyHitRight;
+                        else
+                            AnimationE = TypeAnimationEnnemi.enemyHitLeft;
+                        timer -= (int)elapsedTime; // pour eviter que le joueur se fasse tué en 10ms
                     }
                     else if (Position.X > player.Position.X)
                     {
@@ -155,22 +159,18 @@ namespace Jeux.Perso
 
             hit = false;
 
-            Console.WriteLine($"echelle : {echelleHaut}");
-
-
-
             //AnimationE
             if (deplacement == -Vector2.UnitX)
             {
+                right = false;
                 AnimationE = TypeAnimationEnnemi.enemyWalkLeft;
             }
 
             if (deplacement == Vector2.UnitX)
             {
+                right = true;
                 AnimationE = TypeAnimationEnnemi.enemyWalkRight;
             }
-
-            Console.WriteLine(last);
 
             //deplacement
             if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) 
