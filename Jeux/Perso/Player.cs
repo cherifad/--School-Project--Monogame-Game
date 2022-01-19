@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using System;
@@ -13,6 +14,7 @@ namespace Jeux.Perso
     public class Player : Sprite
     {
         bool idleRight = true, jump = true;
+        Song _hit, _fall, _die;
         public Player(AnimatedSprite texture) 
             : base(texture)
         {

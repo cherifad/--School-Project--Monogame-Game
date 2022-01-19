@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using Jeux.Controles;
 using MonoGame.Extended.Screens.Transitions;
+using Microsoft.Xna.Framework.Media;
 
 namespace Jeux.Screen
 {
@@ -125,6 +126,7 @@ namespace Jeux.Screen
 			}
 
 			//affichage parchemin
+
 			spriteBatch.Draw(_titre, new Vector2(400, 150),Color.White);
 			spriteBatch.End();
 		}

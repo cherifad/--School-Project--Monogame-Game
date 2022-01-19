@@ -10,6 +10,8 @@ using MonoGame.Extended.Serialization;
 using Sprite = Jeux.Perso.Sprite;
 using MonoGame.Extended.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Jeux.Screen
 {
@@ -27,6 +29,9 @@ namespace Jeux.Screen
         private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>();
         private List<Sprite> _player, _enemys = new List<Sprite>();
         private AnimatedSprite enemyTexture;
+
+        //son
+        private List<SoundEffect> soundEffects;
 
 
         bool _switch = true, _spam = false, _dead = false;
@@ -64,8 +69,8 @@ namespace Jeux.Screen
                  _parametres.Add(Content.Load<TiledMap>($"map/para{i + 1}"));
                  _renduParametres.Add(new TiledMapRenderer(GraphicsDevice, _parametres[i]));
              }
-
-            //chargement des textures
+                
+                //chargement des textures
             var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
             var playerTexture = new AnimatedSprite(player);
             var enemy = Content.Load<SpriteSheet>("test/enemy.sf", new JsonContentLoader());
@@ -87,6 +92,7 @@ namespace Jeux.Screen
 
         public override void Update(GameTime gameTime)
         {
+            KeyboardState keyboardState = Keyboard.GetState();
             //creation des rectangles de début et de fin + spawn des ennemis (en supprimant les ancien). Le tout juste lors des changements de map
             if (_switch)
             {
@@ -131,9 +137,6 @@ namespace Jeux.Screen
 
             //vie du joueur est égal à 0 ==> mort
             _dead = _player[0].Health == 0;
-
-            KeyboardState keyboardState = Keyboard.GetState();
-
 
             //changement de map quand le joueur atteint le point de fin
             if (_player[0].Rectangle.Intersects(_start[0]))

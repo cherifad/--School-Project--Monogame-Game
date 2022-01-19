@@ -1,20 +1,14 @@
-﻿using Jeux.Perso;
-using Jeux.Screen;
+﻿using Jeux.Screen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended.Content;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
-using MonoGame.Extended.Serialization;
-using MonoGame.Extended.Sprites;
-using System;
-using System.Collections.Generic;
 
 namespace Jeux
 {
-        public class Game1 : Game
+    public class Game1 : Game
         {
             private GraphicsDeviceManager _graphics;
 
@@ -27,9 +21,6 @@ namespace Jeux
             public Rules _screenRules;
         public Level _screenGame;
 
-            private Test _screentest;
-
-            private Ecran _currentScreen;
         
             public Rectangle mSelectionBox;
 
@@ -137,14 +128,8 @@ namespace Jeux
             
                 _screenHome = new Home(this);
                 _screenGame = new Level(this);
-                _screentest = new Test(this);
                 _screenParametre = new Parametres(this);
                 _screenRules = new Rules(this);
-
-
-            //  ScreenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));
-            // _screenManager.LoadScreen(_screenHome, new FadeTransition(GraphicsDevice, Color.Black));
-            _currentScreen = Ecran.Home;
 
                 //musique
                 _music = Content.Load<Song>("music");

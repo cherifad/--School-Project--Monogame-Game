@@ -109,7 +109,7 @@ namespace Jeux.Perso
                 walkSpeed = elapsedTime * 200;
                 if (Enumerable.Range(start, end).Contains(Rectangle.Y))
                 {
-                    if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyDown(Keys.X) && !_spam)
+                    if (Math.Abs(Position.X - player.Position.X) < 5 && keyboardState.IsKeyDown(Keys.X) && !_spam)
                     {
                         Health--;
                         deplacement = Vector2.Zero;
@@ -133,7 +133,7 @@ namespace Jeux.Perso
                 }
                 else if (player.Position.Y > this.Position.Y) //si player en dessous d'ennemie
                 {
-                    echelleHaut = false;
+                    //echelleHaut = false;
                     if (IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
                     {
                         echelleBas = true;
@@ -169,7 +169,6 @@ namespace Jeux.Perso
             {
                 AnimationE = TypeAnimationEnnemi.enemyWalkRight;
             }
-
 
             Console.WriteLine(last);
 
