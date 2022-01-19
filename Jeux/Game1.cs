@@ -37,6 +37,7 @@ namespace Jeux
             public SpriteFont _font2;
             public SpriteFont _fontStart;
             public SpriteFont _fontExit;
+            public SpriteFont _fontLevel;
 
             //musique
             public Song _music;
@@ -140,6 +141,8 @@ namespace Jeux
             _font2 = Content.Load<SpriteFont>("Font/fontPara");
             _fontStart = Content.Load<SpriteFont>("Font/fontStart");
             _fontExit = Content.Load<SpriteFont>("Font/fontExit");
+            _fontLevel = Content.Load<SpriteFont>("Font/fontLevel");
+
 
             //loading écran accueil
             ScreenManager.LoadScreen(_screenHome);

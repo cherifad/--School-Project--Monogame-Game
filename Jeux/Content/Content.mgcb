@@ -10,11 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Content.Pipeline.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Graphics.dll
-/reference:D:\adlen\Download\les5\les5\MonoGame.Extended.Tiled.dll
-/reference:D:\adlen\Download\les5\les5\Newtonsoft.Json.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Graphics.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Tiled.dll
+/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -43,6 +43,13 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Font/fontExit.spritefont
+
+#begin Font/fontLevel.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/fontLevel.spritefont
 
 #begin Font/fontPara.spritefont
 /importer:FontDescriptionImporter
