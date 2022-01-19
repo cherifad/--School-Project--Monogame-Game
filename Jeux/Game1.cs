@@ -51,7 +51,9 @@ namespace Jeux
             //musique
             public Song _music;
 
-            private readonly ScreenManager _screenManager;
+        private int lives = 3;
+
+        private readonly ScreenManager _screenManager;
 
         public Langue Langue1
         {
@@ -99,6 +101,8 @@ namespace Jeux
                 return this._screenManager;
             }
         }
+
+        public int Lives { get => lives; set => lives = value; }
 
         public Game1()
             {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Jeux.Screen;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Sprites;
@@ -18,6 +19,8 @@ namespace Jeux.Perso
         {
             Health = 10;
         }
+
+
 
         public void Move(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice)
         {
@@ -138,6 +141,20 @@ namespace Jeux.Perso
 
             if (Position.Y > Game1.ScreenHeight)
                 Health = 0;
+
+            //vie 
+            if (Lives != 0 && this.Health == 0)
+            {
+                this.Position = Vector2.Zero;
+                this.Health = 10;
+                Lives--;
+                this.Dead = false;
+            }
+            if (Lives == 0)
+            {
+                this.Dead = true;
+            }
+
 
             //affichage
             Texture.Play(AnimationP.ToString());
