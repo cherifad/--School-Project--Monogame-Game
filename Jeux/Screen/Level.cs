@@ -52,6 +52,7 @@ namespace Jeux.Screen
         public override void LoadContent()
         {
 
+            //chargement des map
           for (int i = 0; i < 5; i++)
            {
                 _map.Add(Content.Load<TiledMap>($"map/{i + 1}Eta"));
@@ -59,18 +60,20 @@ namespace Jeux.Screen
            }
 
 
-
+          //cgargement des écran de paramètrages
             for (int i = 0; i < 3; i++)
              {
                  _parametres.Add(Content.Load<TiledMap>($"map/para{i + 1}"));
                  _renduParametres.Add(new TiledMapRenderer(GraphicsDevice, _parametres[i]));
              }
 
+            //chargement des textures
             var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
             var playerTexture = new AnimatedSprite(player);
             var enemy = Content.Load<SpriteSheet>("test/enemy.sf", new JsonContentLoader());
             enemyTexture = new AnimatedSprite(enemy);
 
+            //creation du joueur
             _player = new List<Sprite>()
            {
                new Player(playerTexture)
@@ -86,7 +89,7 @@ namespace Jeux.Screen
 
         public override void Update(GameTime gameTime)
         {
-
+            //creation des rectangles de début et de fin + spawn des ennemis (en supprimant les ancien). Le tout juste lors des changements de map
             if (_switch)
             {
                 _start.Clear();
@@ -127,15 +130,15 @@ namespace Jeux.Screen
                     i--;
                     _kill++;
                 }
-
             }
 
+            //vie du joueur est égal à 0 ==> mort
             _dead = _player[0].Health == 0;
 
             KeyboardState keyboardState = Keyboard.GetState();
 
 
-            //changement de map?
+            //changement de map quand le joueur atteint le point de fin
             if (_player[0].Rectangle.Intersects(_start[0]))
             {
                 _mapEnCour++;
@@ -164,19 +167,21 @@ namespace Jeux.Screen
 
         public override void Draw(GameTime gameTime)
         {
-            _game1.GraphicsDevice.Clear(Color.Red);
+            _game1.GraphicsDevice.Clear(Color.Black);
 
             _game1.SpriteBatch.Begin();
 
+            //dessin des ennemis et du joueur
             foreach (var sprite in _player)
                 sprite.Draw(_game1.SpriteBatch);
 
             foreach (var sprite in _enemys)
                 sprite.Draw(_game1.SpriteBatch);
 
-
+            //dessin de la map
             _renduMap[_mapEnCour].Draw();
 
+            //dessin de l'ecran de mort
            if (_dead)
                 _renduParametres[2].Draw();
 
