@@ -28,6 +28,8 @@ namespace Jeux.Screen
         private List<Sprite> _player, _enemys = new List<Sprite>();
         private AnimatedSprite enemyTexture;
 
+        //kill and lives
+        private int _kill = 0, _lives = 3;
 
         bool _switch = true, _spam = false, _dead = false;
 
@@ -123,6 +125,7 @@ namespace Jeux.Screen
                 {
                     _enemys.RemoveAt(i);
                     i--;
+                    _kill++;
                 }
 
             }
@@ -176,6 +179,20 @@ namespace Jeux.Screen
 
            if (_dead)
                 _renduParametres[2].Draw();
+
+
+
+            //texte
+            if (_game1._langue == Game1.Langue.English)
+            {
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Kill count : {_kill}", new Vector2(20, 20), Color.Black);
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Lives : {_lives}", new Vector2(20, 40), Color.Black);
+            }
+            else if (_game1._langue == Game1.Langue.French)
+            {
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Ennemis tues : {_kill}", new Vector2(20, 20), Color.Black);
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Vies : {_lives}", new Vector2(20, 40), Color.Black);
+            }
 
             _game1.SpriteBatch.End();
         }

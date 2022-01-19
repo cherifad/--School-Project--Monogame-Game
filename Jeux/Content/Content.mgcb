@@ -44,6 +44,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Font/fontExit.spritefont
 
+#begin Font/fontLevel.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/fontLevel.spritefont
+
 #begin Font/fontPara.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
