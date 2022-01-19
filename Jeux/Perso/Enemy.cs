@@ -10,7 +10,6 @@ using System.Text;
 
 namespace Jeux.Perso
 {
-
     class Enemy : Sprite
     {
         public Enemy(AnimatedSprite texture) 
@@ -19,31 +18,49 @@ namespace Jeux.Perso
             Health = 5;
         }
 
+        //deplacement et echelles
         private Vector2 deplacement = Vector2.Zero;
+        bool echelleHaut = false, echelleBas = false;
 
+        //bords
+        private enum LastBord { droite, gauche, aucun };
+        private LastBord last = LastBord.aucun;
+        bool toucheBordFenetreDroite ;
+        bool toucheBordFenetreGauche ;
+
+        //
         protected bool hit = false;
+        public bool _visible = true, _spam = false;
 
-        protected bool _visible = true, _spam = false;
+        //Random random = new Random(); (pour quoi faire?)
 
-        public void Move(GameTime gameTime, TiledMap _map, string layerCollision, GraphicsDevice graphicsDevice, Sprite player)
+        //???????
+        int _ranX, _ranY;
+
+        public void Move(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {
+            //vitesse ennemi ( à changer j'en avais juste marre qu'il aille lentement )
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            float walkSpeed = elapsedTime * 150;
+            float walkSpeed = elapsedTime * 350;
 
+            //position ennemi
             float positionColonnePerso = (Position.X / _map.TileWidth);
+            float positionLignePerso = ((Position.Y + _texture.TextureRegion.Height / 2) / _map.TileHeight);
 
-            float positionLignePerso = ((this.Position.Y + this._texture.TextureRegion.Height / 2) / _map.TileHeight);
-
+            //timer?
             int timer = 1;
 
-            KeyboardState keyboardState = Keyboard.GetState();
 
             Velocity.X = 0;
 
-            int end = (int)player.Position.Y + 5;
+
+            //rajout de ce que adlen a fait
+
+            /*
+            int end = (int)player.Position.Y + 10;
             int start = (int)player.Position.Y - 10;
 
-            if (Enumerable.Range(start, end).Contains(Rectangle.Y))
+             if (Enumerable.Range(start, end).Contains(Rectangle.Y))
             {
                 walkSpeed = elapsedTime * 200;
                 if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyDown(Keys.X) && !_spam)
@@ -79,33 +96,125 @@ namespace Jeux.Perso
 
             hit = false;
 
+            //spam joueur?
+            KeyboardState keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyUp(Keys.X))
                 _spam = false;
 
-//                    deplacement = -Vector2.UnitX;
+            */
 
 
-            if ((!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
-               )
+
+            //touche bord fenetre ou plus de sol
+            if (Position.X + _texture.TextureRegion.Width / 2 <= 0 || !IsCollision(positionColonnePerso-1, positionLignePerso, layerCollision, _map))
+            {
+                toucheBordFenetreGauche = true;
+            }
+            else if (Position.X + _texture.TextureRegion.Width /2 >= Game1.ScreenWidth || !IsCollision(positionColonnePerso+1, positionLignePerso, layerCollision, _map))
+            {
+                toucheBordFenetreDroite = true;
+            }
+
+            if (toucheBordFenetreDroite == true)
+            {
+                toucheBordFenetreDroite = false;
+                last = LastBord.droite;
+            }
+            else if(toucheBordFenetreGauche == true)
+            {
+                toucheBordFenetreGauche = false;
+                last = LastBord.gauche;
+            }
+
+            //deplacement en fonction bord fenêtre/sol/echelle (monté si perso au dessus à revoir )
+            if (last == LastBord.droite && IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) && !echelleHaut && !echelleBas)
+            {
+                deplacement = -Vector2.UnitX;
+            }
+            else if (last == LastBord.gauche && IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) && !echelleHaut && !echelleBas)
+            {
+                deplacement = Vector2.UnitX;
+            }
+            else if (last == LastBord.droite && !echelleHaut && !echelleBas)
+            {
+                deplacement = -Vector2.UnitX;
+            }
+            else if (last == LastBord.gauche && !echelleHaut && !echelleBas)
+            {
+                deplacement = Vector2.UnitX;
+            }
+            else if (echelleBas == true)
+            {
+                deplacement = Vector2.UnitY;
+            }
+            else if (echelleHaut == true)
+            {
+                deplacement = -Vector2.UnitY;
+            }
+
+
+            // detection echelle 
+            if (player.Position.Y > this.Position.Y) //si player en dessous d'ennemie
+            {
+                echelleHaut = false;
+                if (IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
+                {
+                    echelleBas = true;
+                }
+                else
+                    echelleBas = false;
+            }
+            else if (player.Position.Y < this.Position.Y) //si player au dessus d'en
+            {
+                echelleBas = false;
+                if (IsCollision(positionColonnePerso, positionLignePerso -2, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso - 1 , layerClimb, _map))
+                {
+                    echelleHaut = true;
+                }
+                else
+                    echelleHaut = false;
+            }
+            Console.WriteLine(echelleHaut);
+
+
+
+            //animation
+            if (deplacement == -Vector2.UnitX)
+            {
+                Animation = TypeAnimation.enemyWalkLeft;
+            }
+            else if (deplacement == Vector2.UnitX)
+            {
+                Animation = TypeAnimation.enemyWalkRight;
+            }
+
+                Console.WriteLine(last);
+
+            //deplacement
+            if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) && toucheBordFenetreGauche == false  && toucheBordFenetreDroite == false)
+            {
+                Position += walkSpeed * deplacement;
+            }
+
+            //gravite
+            if ((!IsCollision(positionColonnePerso-1, positionLignePerso, layerCollision, _map)))
             {
                 Velocity.Y += Gravity.Y * elapsedTime;
             }
             else
                 Velocity.Y = 0;
 
-           
-
             Position += Velocity * elapsedTime;
 
-            Position += walkSpeed * deplacement;
+            //affichage
+            this._texture.Play(this.Animation.ToString());
+            this._texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-          // this._texture.Play(this.Animation.ToString());
-          // this._texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public override void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {
-            Move(gameTime, _map, layerCollision, graphicsDevice, player);
+            Move(gameTime, _map, layerCollision, layerClimb, graphicsDevice, player);
         }
 
         private bool IsCollision(float x, float y, string layer, TiledMap _map)

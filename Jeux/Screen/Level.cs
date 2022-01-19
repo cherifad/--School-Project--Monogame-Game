@@ -14,21 +14,21 @@ namespace Jeux.Screen
 {
     public class Level : GameScreen
     {
-        private Game1 _game1; // pour récupérer la fenêtre de jeu principale
+        // pour récupérer la fenêtre de jeu principale
+        private Game1 _game1; 
 
-        private List<TiledMap> _map = new List<TiledMap>(), _parametres = new List<TiledMap>();
-
-        private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>(), _renduParametres = new List<TiledMapRenderer>();
-
+        //map
+        private List<TiledMap> _map = new List<TiledMap>(); 
+        private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>();
         private int _mapEnCour;
 
-        private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>(), _health;
-
+        //idk
+        private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>();
         private List<Sprite> _sprites;
-
-        bool _switch = true, _control = true, _dead = false;
-
         private AnimatedSprite enemyTexture;
+
+
+        bool _switch = true;
 
         public Level(Game1 game) : base(game)
         {
@@ -64,13 +64,17 @@ namespace Jeux.Screen
             var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
             var playerTexture = new AnimatedSprite(player);
             var enemy = Content.Load<SpriteSheet>("test/enemy.sf", new JsonContentLoader());
-            enemyTexture = new AnimatedSprite(enemy);
+            var enemyTexture = new AnimatedSprite(enemy);
 
             _sprites = new List<Sprite>()
            {
                new Player(playerTexture)
                {
                    Position = new Vector2(10, 10),
+               },
+               new Enemy(enemyTexture)
+               {
+                   Position = new Vector2(500, 0),
                }
            };
 
@@ -82,7 +86,7 @@ namespace Jeux.Screen
 
             if (_switch)
             {
-                _start.Clear();                
+                _start.Clear();
                 int i = 2;
                 int y = 2;
                 while (i > 0)
@@ -94,23 +98,10 @@ namespace Jeux.Screen
                     y++;
                     i--;
                 }
-                for (int j = 0; j < _map[_mapEnCour].ObjectLayers[0].Objects.Length; j++)
-                {
-                    _sprites.Add(
-                        new Enemy(enemyTexture)
-                        {
-                            Position = _map[_mapEnCour].ObjectLayers[0].Objects[j].Position,
-                        }
-                        ); 
-                }
                 _switch = false;
             }
 
-            if (_sprites[0].Health == 0)
-                _dead = true;
-
-            Console.WriteLine(_map[_mapEnCour].ObjectLayers[0].Objects.Length);
-
+            //jsp
             for (int i = 0; i < _sprites.Count; i++)
             {
                 if (_sprites[i].Health == 0)
@@ -119,17 +110,18 @@ namespace Jeux.Screen
                     i--;
                 }
 
-            } 
+            }
 
+            //changement de map?
             if (_sprites[0].Rectangle.Intersects(_start[0]))
             {
                 _mapEnCour++;
-                _switch = true;
-                _sprites[0].Position = Vector2.Zero;
+                _switch = true;            
             }
 
             foreach (Sprite sprite in _sprites)
                 sprite.Update(gameTime, _map[_mapEnCour], "sol", "echelles", GraphicsDevice, _sprites[0]);
+
         }
 
         public override void Draw(GameTime gameTime)
@@ -137,7 +129,6 @@ namespace Jeux.Screen
             _game1.GraphicsDevice.Clear(Color.Red);
 
             _game1.SpriteBatch.Begin();
-
 
             foreach (var sprite in _sprites)
                 sprite.Draw(_game1.SpriteBatch);
