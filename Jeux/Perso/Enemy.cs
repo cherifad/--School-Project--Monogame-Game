@@ -26,6 +26,7 @@ namespace Jeux.Perso
         bool toucheBordFenetreDroite ;
         bool toucheBordFenetreGauche ;
 
+        protected bool hit = false;
         public bool _visible = true, _spam = false, _detection = false;
 
         public void Move(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
@@ -43,6 +44,56 @@ namespace Jeux.Perso
 
 
             Velocity.X = 0;
+
+
+            //rajout de ce que adlen a fait
+
+            /*
+            int end = (int)player.Position.Y + 10;
+            int start = (int)player.Position.Y - 10;
+
+             if (Enumerable.Range(start, end).Contains(Rectangle.Y))
+            {
+                walkSpeed = elapsedTime * 200;
+                if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyDown(Keys.X) && !_spam)
+                {
+                    Health--;
+                    deplacement = Vector2.Zero;
+                    _spam = true;
+                }
+                else if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyUp(Keys.X) && timer > 0)
+                    {
+                        hit = true;
+                        deplacement = Vector2.Zero;
+                        timer -= (int)elapsedTime;
+                    }
+                else if (Position.X > player.Position.X)
+                {
+                    Animation = TypeAnimation.enemyWalkLeft;
+                    deplacement = -Vector2.UnitX;
+                }
+                else if (Position.X < player.Position.X)
+                {
+                    deplacement = Vector2.UnitX;
+                    Animation = TypeAnimation.enemyWalkRight;
+                }
+            }
+            else
+            {
+                if (!IsCollision(positionColonnePerso + Rectangle.Width, positionLignePerso, layerCollision, _map))
+                    deplacement += -Vector2.UnitX;
+                if (!IsCollision(positionColonnePerso - Rectangle.Width, positionLignePerso, layerCollision, _map))
+                    deplacement += Vector2.UnitX;
+            }
+
+            hit = false;
+
+            //spam joueur?
+           
+
+            */
+
+
 
             //touche bord fenetre ou plus de sol
             if (Position.X + Texture.TextureRegion.Width / 2 <= 0 || !IsCollision(positionColonnePerso-1, positionLignePerso, layerCollision, _map))
@@ -115,20 +166,21 @@ namespace Jeux.Perso
                         deplacement = Vector2.Zero;
                         _spam = true;
                     }
-                    else if (Math.Abs(this.Position.X - player.Position.X) < 2 && keyboardState.IsKeyUp(Keys.X) && timer > 0)
+                    else if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyUp(Keys.X) && timer > 0)
                     {
                         hit = true;
                         deplacement = Vector2.Zero;
-                        AnimationE = TypeAnimationEnnemi.enemyHitLeft;
                         timer -= (int)elapsedTime;
                     }
                     else if (Position.X > player.Position.X)
                     {
+                        Animation = TypeAnimation.enemyWalkLeft;
                         deplacement = -Vector2.UnitX;
                     }
                     else if (Position.X < player.Position.X)
                     {
                         deplacement = Vector2.UnitX;
+                        Animation = TypeAnimation.enemyWalkRight;
                     }
                 }
                 else if (player.Position.Y > this.Position.Y) //si player en dessous d'ennemie
@@ -153,25 +205,22 @@ namespace Jeux.Perso
                 }
             }
 
-            hit = false;
 
-            Console.WriteLine($"echelle : {echelleHaut}");
-
+            Console.WriteLine(echelleHaut);
 
 
-            //AnimationE
+
+            //animation
             if (deplacement == -Vector2.UnitX)
             {
-                AnimationE = TypeAnimationEnnemi.enemyWalkLeft;
+                Animation = TypeAnimation.enemyWalkLeft;
             }
-
-            if (deplacement == Vector2.UnitX)
+            else if (deplacement == Vector2.UnitX)
             {
-                AnimationE = TypeAnimationEnnemi.enemyWalkRight;
+                Animation = TypeAnimation.enemyWalkRight;
             }
 
-
-            Console.WriteLine(last);
+                Console.WriteLine(last);
 
             //deplacement
             if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) 
@@ -192,7 +241,7 @@ namespace Jeux.Perso
             Position += Velocity * elapsedTime;
 
             //affichage
-            this.Texture.Play(this.AnimationE.ToString());
+          //  this.Texture.Play(this.Animation.ToString());
             this.Texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
         }

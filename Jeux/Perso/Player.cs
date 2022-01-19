@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Jeux.Perso
 {
-    public enum TypeAnimationPerso { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb };
+    public enum TypeAnimation { walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb };
     public class Player : Sprite
     {
         bool idleRight = true, jump = true;
@@ -41,39 +41,40 @@ namespace Jeux.Perso
             bool toucheBordFenetre = false;
 
 
-            //AnimationP idle
+            //animation idle
             if (idleRight)
-                AnimationP = TypeAnimationPerso.idleRight;
+                Animation = TypeAnimation.idleRight;
             else
-                AnimationP = TypeAnimationPerso.idleLeft;
+                Animation = TypeAnimation.idleLeft;
 
           if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map)
               && !IsCollision(positionColonnePerso, positionLignePerso - 1, layerCollision, _map))
-                AnimationP = TypeAnimationPerso.idleClimb;
+                Animation = TypeAnimation.idleClimb;
 
 
             //si le joueur est frappé
-            if (hit)
-                Health--;
+
+
+
 
             //touche du haut + echelle
             if (keyboardState.IsKeyDown(Keys.Up) && (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map) || IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map)))
             {
-                AnimationP = TypeAnimationPerso.climb;
+                Animation = TypeAnimation.climb;
                 toucheBordFenetre = Position.Y - Texture.TextureRegion.Height / 2 <= 0;
                 //Collision = IsCollision(positionColonnePerso, positionLignePerso - 1);
                 deplacement = -Vector2.UnitY;
             } // touche du bas + echelle
             else if (keyboardState.IsKeyDown(Keys.Down) && IsCollision(positionColonnePerso, positionLignePerso , layerClimb, _map))
             {
-                AnimationP = TypeAnimationPerso.climb;
+                Animation = TypeAnimation.climb;
                 toucheBordFenetre = Position.Y + Texture.TextureRegion.Height / 2 >= Game1.ScreenHeight;
                 //Collision = IsCollision(positionColonnePerso, positionLignePerso + 1);
                 deplacement = Vector2.UnitY;
             }//touche de droite + pas de saut
             else if (keyboardState.IsKeyDown(Keys.Left) && jump)
             {
-                AnimationP = TypeAnimationPerso.walkLeft;
+                Animation = TypeAnimation.walkLeft;
                 toucheBordFenetre = Position.X - Texture.TextureRegion.Width / 2 <= 0;
                 //Collision = IsCollision(positionColonnePerso - 1, positionLignePerso);
                 deplacement = -Vector2.UnitX;
@@ -81,7 +82,7 @@ namespace Jeux.Perso
             } //touche de gauche + pas de saut
             else if (keyboardState.IsKeyDown(Keys.Right) && jump)
             {
-                AnimationP = TypeAnimationPerso.walkRight;
+                Animation = TypeAnimation.walkRight;
                 toucheBordFenetre = Position.X + Texture.TextureRegion.Width / 2 >= Game1.ScreenWidth;
                 //Collision = IsCollision(positionColonnePerso + 1, positionLignePerso);
                 deplacement = Vector2.UnitX;
@@ -90,13 +91,13 @@ namespace Jeux.Perso
             } // saut + pas de saut
             else if (keyboardState.IsKeyDown(Keys.Space) && jump)
             {
-                AnimationP = TypeAnimationPerso.jumpLeft;
+                Animation = TypeAnimation.jumpLeft;
                 Velocity.Y = -100f;
             }//hit
             else if (keyboardState.IsKeyDown(Keys.X))
             {
-                if (idleRight) AnimationP = TypeAnimationPerso.hitRight;
-                else AnimationP = TypeAnimationPerso.hitLeft;
+                if (idleRight) Animation = TypeAnimation.hitRight;
+                else Animation = TypeAnimation.hitLeft;
             }
 
             //deplacement
@@ -140,7 +141,7 @@ namespace Jeux.Perso
                 Health = 0;
 
             //affichage
-            Texture.Play(AnimationP.ToString());
+            Texture.Play(Animation.ToString());
             Texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
