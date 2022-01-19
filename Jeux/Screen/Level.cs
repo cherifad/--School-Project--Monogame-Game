@@ -14,17 +14,19 @@ namespace Jeux.Screen
 {
     public class Level : GameScreen
     {
-        private Game1 _game1; // pour récupérer la fenêtre de jeu principale
+        // pour récupérer la fenêtre de jeu principale
+        private Game1 _game1; 
 
+        //map
         private List<TiledMap> _map = new List<TiledMap>(); 
-
         private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>();
-
         private int _mapEnCour;
 
+        //idk
         private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>();
-
         private List<Sprite> _sprites;
+        private AnimatedSprite enemyTexture;
+
 
         bool _switch = true;
 
@@ -66,7 +68,7 @@ namespace Jeux.Screen
                },
                new Enemy(enemyTexture)
                {
-                   Position = new Vector2(500,0),
+                   Position = new Vector2(500, 0),
                }
            };
 
@@ -78,6 +80,7 @@ namespace Jeux.Screen
 
             if (_switch)
             {
+                _start.Clear();
                 int i = 2;
                 int y = 2;
                 while (i > 0)
@@ -92,7 +95,18 @@ namespace Jeux.Screen
                 _switch = false;
             }
 
+            //jsp
+            for (int i = 0; i < _sprites.Count; i++)
+            {
+                if (_sprites[i].Health == 0)
+                {
+                    _sprites.RemoveAt(i);
+                    i--;
+                }
 
+            }
+
+            //changement de map?
             if (_sprites[0].Rectangle.Intersects(_start[0]))
             {
                 _mapEnCour++;

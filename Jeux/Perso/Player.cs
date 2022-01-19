@@ -16,135 +16,34 @@ namespace Jeux.Perso
         public Player(AnimatedSprite texture) 
             : base(texture)
         {
+            Health = 10;
         }
 
         public void Move(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice)
         {
-            /*  #region Fields
-
-              bool idleRight = true, collision = false, jump = true;
-              KeyboardState keyboardState = Keyboard.GetState();
-              float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-              float walkSpeed = elapsedTime * 100, jumpSpeed = elapsedTime * 10;
-
-              #endregion
-
-              #region Positions
-
-              //le personnage ne peut sortir du bord de la fenêtre
-              Position = Vector2.Clamp(Position, new Vector2(0 + this.Rectangle.Width, 0 + this.Rectangle.Height), 
-                  new Vector2(Game1.ScreenWidth - this.Rectangle.Width, Game1.ScreenHeight - this.Rectangle.Height));
-              //position du personnage sur la carte
-              float positionColonnePlayer = (Position.X / _map.TileWidth);
-              float positionLignePlayer = (Position.Y / _map.TileHeight);
-
-              #endregion
-
-              #region Animation au repos
-              //Grimpe
-              if (IsCollision(positionColonnePlayer, positionLignePlayer - 1, layerClimb, _map)
-                 && !IsCollision(positionColonnePlayer, positionLignePlayer - 1, layerCollision, _map))
-                  Animation = TypeAnimation.idleClimb;
-
-              //debout gauche ou droite
-              if (idleRight)
-                  Animation = TypeAnimation.idleRight;
-              else
-                  Animation = TypeAnimation.idleLeft;
-              #endregion
-
-              #region Entree joueur
-
-              //entrées clavier touche du haut
-              if (keyboardState.IsKeyDown(Keys.Up) 
-                  && IsCollision(positionColonnePlayer, positionLignePlayer - 1, layerClimb, _map))
-              {
-                  Animation = TypeAnimation.climb;
-                  //toucheBordFenetre = Position.Y - Player.TextureRegion.Height / 2 <= 0;
-                  collision = IsCollision(positionColonnePlayer, positionLignePlayer - 1, layerCollision, _map);
-                  Velocity = -Vector2.UnitY;
-              } //touche du bas
-              else if (keyboardState.IsKeyDown(Keys.Down) 
-                  && IsCollision(positionColonnePlayer, positionLignePlayer, layerClimb, _map))
-              {
-                  Animation = TypeAnimation.climb;
-                  //toucheBordFenetre = Position.Y + Player.TextureRegion.Height / 2 >= graphicsDevice.Viewport.Height;
-                  collision = IsCollision(positionColonnePlayer, positionLignePlayer + 1, layerCollision, _map);
-                  Velocity = Vector2.UnitY;
-              } //touche gauche
-              else if (keyboardState.IsKeyDown(Keys.Left))
-              {
-                  Animation = TypeAnimation.walkLeft;
-                  //toucheBordFenetre = Position.X - Player.TextureRegion.Width / 2 <= 0;
-                  collision = IsCollision(positionColonnePlayer - 1, positionLignePlayer, layerCollision, _map);
-                  Velocity = -Vector2.UnitX;
-                  idleRight = false;
-              } //touche droite
-              else if (keyboardState.IsKeyDown(Keys.Right))
-              {
-                  Animation = TypeAnimation.walkRight;
-                  //toucheBordFenetre = Position.X + Player.TextureRegion.Width / 2 >= graphicsDevice.Viewport.Width;
-                  collision = IsCollision(positionColonnePlayer + 1, positionLignePlayer, layerCollision, _map);
-                  Velocity = Vector2.UnitX;
-                  idleRight = true;
-              } //saut (espace)
-              else if (keyboardState.IsKeyDown(Keys.Space) && jump)
-              {
-                  Velocity.Y = -jumpSpeed;
-                  jump = false;
-              }
-
-              #endregion
-
-              #region deplacement
-
-             /* if (IsCollision(positionColonnePlayer, positionLignePlayer, layerCollision, _map)
-                 || IsCollision(positionColonnePlayer, positionLignePlayer - 1, layerClimb, _map)
-                 || IsCollision(positionColonnePlayer, positionLignePlayer + 1, layerClimb, _map))
-              {
-                  Position += walkSpeed * Velocity;
-              }*/
-
-            /* if ((!jump || !IsCollision(positionColonnePlayer, positionLignePlayer, layerCollision, _map))
-                 && !IsCollision(positionColonnePlayer, positionLignePlayer - 1, layerClimb, _map)
-                 && !IsCollision(positionColonnePlayer, positionLignePlayer + 1, layerClimb, _map))
-                 Velocity.Y += Gravity.Y * elapsedTime;
-             else
-                 Velocity.Y = 0;
-
-             Position += walkSpeed * Velocity;
-
-             //  if (jump)
-             //     Position = new Vector2(Position.X, 800);
-
-             #endregion*/
-
+            //deplacement
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             float walkSpeed = elapsedTime * 300, walkSpeedVirtuel = elapsedTime * 300;
-
-            KeyboardState keyboardState = Keyboard.GetState();
-
             Vector2 deplacement = Vector2.Zero;
 
+            //clavier
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            //position
             Vector2 positionVirtuelle = Vector2.Zero;
-
-            //                _mapEnCour ++;
-
-            /*for (int i = 0; i < 5; i++)
-            {
-                _positions[i] = (Position.X / _map[_mapEnCour].TileWidth);
-            }*/
-
             float positionColonnePerso = (Position.X / _map.TileWidth);
-
             float positionLignePerso = ((Position.Y + _texture.TextureRegion.Height / 2) / _map.TileHeight);
 
+            //velocité
             Velocity.X = 0;
 
+            //bord
             bool toucheBordFenetre = false;
+            bool ecran = false; //?
 
-            bool ecran = false;
+
+
+
 
             //animation idle
             if (idleRight)
@@ -155,6 +54,11 @@ namespace Jeux.Perso
             if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map)
                 && !IsCollision(positionColonnePerso, positionLignePerso - 1, layerCollision, _map))
                 Animation = TypeAnimation.idleClimb;
+
+
+            //si le joueur est frappé
+
+
 
 
             //touche du haut + echelle
@@ -195,7 +99,7 @@ namespace Jeux.Perso
             {
                 Animation = TypeAnimation.jumpLeft;
                 Velocity.Y = -100f;
-            }
+            }//hit
             else if (keyboardState.IsKeyDown(Keys.X))
             {
                 if (idleRight) Animation = TypeAnimation.hitRight;
@@ -206,6 +110,11 @@ namespace Jeux.Perso
               {
                   deplacement = Vector2.Zero;
               }*/
+
+
+
+
+
 
             //deplacement
             if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map)
@@ -241,6 +150,7 @@ namespace Jeux.Perso
 
             Position += Velocity * elapsedTime;
 
+            //affichage
             _texture.Play(Animation.ToString());
             _texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }

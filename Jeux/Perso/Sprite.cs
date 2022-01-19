@@ -10,14 +10,31 @@ namespace Jeux.Perso
     {
         protected AnimatedSprite _texture;
 
+        //position
         public Vector2 Position;
+
+        //velocité vitesse
         public Vector2 Velocity = Vector2.Zero;
         public float Speed;
-        // public Input Input;
-        public bool IsRemoved = false;
-        private TypeAnimation _animation;
 
+        // public Input Input;
+
+        public bool IsRemoved = false;
+
+        //animation
+        private TypeAnimation _animation;
+        public enum TypeAnimation
+        {
+            walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb,
+            enemyWalkLeft, enemyWalkRight, enemyHitLeft, enemyHitRight,
+            witchWalkLeft, witchWalkRight, witchHitLeft, witchHitRight
+        };
         public TypeAnimation Animation { get => this._animation; set => this._animation = value; }
+
+
+        //vie
+        private int _health;
+
 
         public Vector2 Gravity
         {
@@ -34,10 +51,31 @@ namespace Jeux.Perso
             }
         }
 
+        //ajout de ce que adlen a fait
+
+        /*public List<Rectangle> HealhtBar
+{
+    get
+    {
+        return HealhtBar;
+    }
+    set
+    {
+        HealhtBar = new List<Rectangle>();
+        for (int i = 0; i < Health; i++)
+        {
+            HealhtBar.Add(new Rectangle(Rectangle.X + i * 5, Rectangle.Y - 1, 5, 5));
+        }
+    }
+}*/
+
         public Sprite(AnimatedSprite texture)
         {
             _texture = texture;
         }
+
+        //vie
+        public int Health { get => this._health; protected set => this._health = value; }
 
         public virtual void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {
