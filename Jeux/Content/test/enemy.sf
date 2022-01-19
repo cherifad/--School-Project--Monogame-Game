@@ -8,42 +8,42 @@
     "enemyWalkLeft": {
       "frames": [4,3],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     },
     "enemyWalkRight": {
       "frames": [1,2],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     },
     "enemyHitLeft": {
       "frames": [5],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     },
     "enemyHitRight": {
       "frames": [0],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     },
     "witchWalkLeft": {
       "frames": [10,9],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     },
     "witchWalkRight": {
       "frames": [7,8],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     },
     "witchHitLeft": {
       "frames": [11],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     },
     "witchHitRight": {
       "frames": [6],
       "isLooping": false,
-      "frameDuration": 0.07
+      "frameDuration": 0.4
     }
   }
 }

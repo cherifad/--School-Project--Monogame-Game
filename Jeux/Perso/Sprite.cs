@@ -19,17 +19,27 @@ namespace Jeux.Perso
 
         // public Input Input;
 
-        public bool IsRemoved = false;
+        public bool IsRemoved = false, hit = false;
 
         //animation
-        private TypeAnimation _animation;
-        public enum TypeAnimation
+        private TypeAnimationPerso _animationP;
+        private TypeAnimationEnnemi _animationE;
+        public enum TypeAnimationPerso
         {
-            walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb,
+            walkRight, walkLeft, climb, hitLeft, hitRight, jumpLeft, jumpRight, idleLeft, idleRight, idleClimb            
+        };
+
+        public enum TypeAnimationEnnemi
+        {
             enemyWalkLeft, enemyWalkRight, enemyHitLeft, enemyHitRight,
             witchWalkLeft, witchWalkRight, witchHitLeft, witchHitRight
         };
-        public TypeAnimation Animation { get => this._animation; set => this._animation = value; }
+
+
+        public TypeAnimationPerso AnimationP { get => this._animationP; set => this._animationP = value; }
+
+        public TypeAnimationEnnemi AnimationE { get => this._animationE; set => this._animationE = value; }
+
 
 
         //vie
