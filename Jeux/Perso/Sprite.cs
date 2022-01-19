@@ -19,6 +19,10 @@ namespace Jeux.Perso
 
         // public Input Input;
 
+        //vie
+        private bool dead = false;
+        private int _lives = 3;
+
         public bool IsRemoved = false, hit = false;
 
         //animation
@@ -82,6 +86,8 @@ namespace Jeux.Perso
 
         //vie
         public int Health { get => this._health; protected set => this._health = value; }
+        public bool Dead { get => dead; set => dead = value; }
+        public int Lives { get => _lives; set => _lives = value; }
 
         public virtual void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {

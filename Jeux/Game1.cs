@@ -19,8 +19,12 @@ namespace Jeux
             public Home _screenHome;
             public Parametres _screenParametre;
             public Rules _screenRules;
-        public Level _screenGame;
+            public Level _screenGame;
+            public Mort _screenMort;
+            
+            private Test _screentest;
 
+            private Ecran _currentScreen;
         
             public Rectangle mSelectionBox;
 
@@ -42,7 +46,8 @@ namespace Jeux
             //musique
             public Song _music;
 
-            private readonly ScreenManager _screenManager;
+
+        private readonly ScreenManager _screenManager;
 
         public Langue Langue1
         {
@@ -91,6 +96,7 @@ namespace Jeux
             }
         }
 
+
         public Game1()
             {
                 Graphics = new GraphicsDeviceManager(this);
@@ -131,6 +137,7 @@ namespace Jeux
                 _screenGame = new Level(this);
                 _screenParametre = new Parametres(this);
                 _screenRules = new Rules(this);
+                _screenMort = new Mort(this);
 
                 //musique
                 _music = Content.Load<Song>("music");

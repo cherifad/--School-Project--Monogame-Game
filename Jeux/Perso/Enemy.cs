@@ -137,18 +137,16 @@ namespace Jeux.Perso
                 }
                 else if (player.Position.Y > this.Position.Y) //si player en dessous d'ennemie
                 {
-                    //echelleHaut = false;
-                    if (IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
+                    if (IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map) && !echelleHaut)
                     {
                         echelleBas = true;
                     }
                     else
                         echelleBas = false;
                 }
-                else if (player.Position.Y < this.Position.Y) //si player au dessus d'en
+                if (player.Position.Y < this.Position.Y) //si player au dessus d'en
                 {
-                    echelleBas = false;
-                    if (IsCollision(positionColonnePerso, positionLignePerso - 2, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map))
+                    if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map) && !echelleBas)
                     {
                         echelleHaut = true;
                     }

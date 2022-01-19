@@ -27,7 +27,8 @@ namespace Jeux.Screen
         private List<Sprite> _player, _enemys = new List<Sprite>();
         private AnimatedSprite enemyTexture;
 
-        bool _switch = true, _spam = false, _dead = false; //switch -> pour changer de map, _spam -> pour eviter les doubles clic, _dead -> pour la mort
+        //kill and lives
+        private int _kill = 0;
 
         public Level(Game1 game) : base(game)
         {
@@ -127,7 +128,8 @@ namespace Jeux.Screen
             }
 
             //vie du joueur est égal à 0 ==> mort
-            _dead = _player[0].Health == 0;
+            if (_player[0].Dead == true)
+                _dead = true;
 
             //changement de map quand le joueur atteint le point de fin
             if (_player[0].Rectangle.Intersects(_start[0]))
@@ -178,8 +180,26 @@ namespace Jeux.Screen
             }
 
             //dessin de l'ecran de mort
-           if (_dead)
-                _renduParametres[2].Draw();
+            if (_dead == true)
+            {
+                _game1.ScreenManager.LoadScreen(_game1._screenMort);
+                _player[0].Lives = 3;
+                _dead = false;
+            }
+
+
+
+            //texte
+            if (_game1._langue == Game1.Langue.English)
+            {
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Kill count : {_kill}", new Vector2(20, 20), Color.Black);
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Lives : {_player[0].Lives}", new Vector2(20, 40), Color.Black);
+            }
+            else if (_game1._langue == Game1.Langue.French)
+            {
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Ennemis tues : {_kill}", new Vector2(20, 20), Color.Black);
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Vies : {_player[0].Lives}", new Vector2(20, 40), Color.Black);
+            }
 
             _game1.SpriteBatch.End();
         }
