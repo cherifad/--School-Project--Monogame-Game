@@ -28,32 +28,32 @@
     "jumpLeft": {
       "frames": [ 2, 1 ],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.07
     },
     "jumpRight": {
       "frames": [ 9, 10 ],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.07
     },
     "idleLeft": {
       "frames": [ 0 ],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.07
     },
     "climb": {
       "frames": [ 11, 12 ],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.07
     },
     "idleRight": {
       "frames": [ 5 ],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.07
     },
   "idleClimb": {
     "frames": [ 12 ],
     "isLooping": false,
-    "frameDuration": 0.2
+    "frameDuration": 0.07
   }
 }
 }

@@ -9,26 +9,27 @@ using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 using Sprite = Jeux.Perso.Sprite;
 using MonoGame.Extended.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace Jeux.Screen
 {
     public class Level : GameScreen
     {
         // pour récupérer la fenêtre de jeu principale
-        private Game1 _game1; 
+        private Game1 _game1;
 
         //map
-        private List<TiledMap> _map = new List<TiledMap>(); 
-        private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>();
+        private List<TiledMap> _map = new List<TiledMap>(), _parametres = new List<TiledMap>(); 
+        private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>(), _renduParametres = new List<TiledMapRenderer>();
         private int _mapEnCour;
 
         //idk
         private List<Rectangle> _spawn = new List<Rectangle>(), _start = new List<Rectangle>();
-        private List<Sprite> _sprites;
+        private List<Sprite> _player, _enemys = new List<Sprite>();
         private AnimatedSprite enemyTexture;
 
 
-        bool _switch = true;
+        bool _switch = true, _spam = false, _dead = false;
 
         public Level(Game1 game) : base(game)
         {
@@ -55,28 +56,28 @@ namespace Jeux.Screen
                 _renduMap.Add(new TiledMapRenderer(GraphicsDevice, _map[i]));
            }
 
+
+
             for (int i = 0; i < 3; i++)
-            {
-                _parametres.Add(Content.Load<TiledMap>($"map/para{i + 1}"));
-                _renduParametres.Add(new TiledMapRenderer(GraphicsDevice, _parametres[i]));
-            }
+             {
+                 _parametres.Add(Content.Load<TiledMap>($"map/para{i + 1}"));
+                 _renduParametres.Add(new TiledMapRenderer(GraphicsDevice, _parametres[i]));
+             }
 
             var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
             var playerTexture = new AnimatedSprite(player);
             var enemy = Content.Load<SpriteSheet>("test/enemy.sf", new JsonContentLoader());
-            var enemyTexture = new AnimatedSprite(enemy);
+            enemyTexture = new AnimatedSprite(enemy);
 
-            _sprites = new List<Sprite>()
+            _player = new List<Sprite>()
            {
                new Player(playerTexture)
                {
-                   Position = new Vector2(10, 10),
+                   Position = new Vector2(10, 800),
                },
-               new Enemy(enemyTexture)
-               {
-                   Position = new Vector2(500, 0),
-               }
            };
+
+           
 
             base.LoadContent();
         }
@@ -87,6 +88,7 @@ namespace Jeux.Screen
             if (_switch)
             {
                 _start.Clear();
+                _enemys.Clear();
                 int i = 2;
                 int y = 2;
                 while (i > 0)
@@ -98,30 +100,63 @@ namespace Jeux.Screen
                     y++;
                     i--;
                 }
+
+                for (int j = 0; j < _map[_mapEnCour].ObjectLayers[0].Objects.Length; j++)
+                {
+                    _enemys.Add(
+                    new Enemy(enemyTexture)
+                    {
+                        Position = _map[_mapEnCour].ObjectLayers[0].Objects[j].Position,
+                    }
+                    );
+                }
+
                 _switch = false;
             }
+            //ajout des enemis
 
-            //jsp
-            for (int i = 0; i < _sprites.Count; i++)
+
+            //ennemi supprimer si sa vie est 0
+            for (int i = 0; i < _enemys.Count; i++)
             {
-                if (_sprites[i].Health == 0)
+                if (_enemys[i].Health == 0)
                 {
-                    _sprites.RemoveAt(i);
+                    _enemys.RemoveAt(i);
                     i--;
                 }
 
             }
 
+            _dead = _player[0].Health == 0;
+
+            KeyboardState keyboardState = Keyboard.GetState();
+
+
             //changement de map?
-            if (_sprites[0].Rectangle.Intersects(_start[0]))
+            if (_player[0].Rectangle.Intersects(_start[0]))
             {
                 _mapEnCour++;
-                _switch = true;            
+                _player[0].Position = Vector2.Zero;
+                _switch = true;
             }
 
-            foreach (Sprite sprite in _sprites)
-                sprite.Update(gameTime, _map[_mapEnCour], "sol", "echelles", GraphicsDevice, _sprites[0]);
+            //maj du joueur et des ennemis
+            foreach (Sprite sprite in _player)
+                sprite.Update(gameTime, _map[_mapEnCour], "sol", "echelles", GraphicsDevice, _player[0]);
 
+            foreach (Sprite enemy in _enemys)
+                enemy.Update(gameTime, _map[_mapEnCour], "sol", "echelles", GraphicsDevice, _player[0]);
+
+            //debug chagement de map
+            if (keyboardState.IsKeyDown(Keys.E) && !_spam)
+            {
+                _spam = true;
+                _mapEnCour++;
+            }
+
+            //debug changement de map sans avoir un changement trop rapide
+            if (keyboardState.IsKeyUp(Keys.E))
+                _spam = false;
         }
 
         public override void Draw(GameTime gameTime)
@@ -130,14 +165,16 @@ namespace Jeux.Screen
 
             _game1.SpriteBatch.Begin();
 
-            foreach (var sprite in _sprites)
+            foreach (var sprite in _player)
                 sprite.Draw(_game1.SpriteBatch);
 
-                       
-            if(_mapEnCour < 2)
-                _renduMap[_mapEnCour].Draw();
+            foreach (var sprite in _enemys)
+                sprite.Draw(_game1.SpriteBatch);
 
-            if (_dead)
+
+            _renduMap[_mapEnCour].Draw();
+
+           if (_dead)
                 _renduParametres[2].Draw();
 
             _game1.SpriteBatch.End();

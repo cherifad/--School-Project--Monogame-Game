@@ -32,17 +32,13 @@ namespace Jeux.Perso
             //position
             Vector2 positionVirtuelle = Vector2.Zero;
             float positionColonnePerso = (Position.X / _map.TileWidth);
-            float positionLignePerso = ((Position.Y + _texture.TextureRegion.Height / 2) / _map.TileHeight);
+            float positionLignePerso = ((Position.Y + Texture.TextureRegion.Height / 2) / _map.TileHeight);
 
             //velocité
             Velocity.X = 0;
 
             //bord
             bool toucheBordFenetre = false;
-            bool ecran = false; //?
-
-
-
 
 
             //animation idle
@@ -51,9 +47,9 @@ namespace Jeux.Perso
             else
                 Animation = TypeAnimation.idleLeft;
 
-          /*  if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map)
-                && !IsCollision(positionColonnePerso, positionLignePerso - 1, layerCollision, _map))
-                Animation = TypeAnimation.idleClimb;*/
+          if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map)
+              && !IsCollision(positionColonnePerso, positionLignePerso - 1, layerCollision, _map))
+                Animation = TypeAnimation.idleClimb;
 
 
             //si le joueur est frappé
@@ -65,34 +61,32 @@ namespace Jeux.Perso
             if (keyboardState.IsKeyDown(Keys.Up) && (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map) || IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map)))
             {
                 Animation = TypeAnimation.climb;
-                toucheBordFenetre = Position.Y - _texture.TextureRegion.Height / 2 <= 0;
+                toucheBordFenetre = Position.Y - Texture.TextureRegion.Height / 2 <= 0;
                 //Collision = IsCollision(positionColonnePerso, positionLignePerso - 1);
                 deplacement = -Vector2.UnitY;
             } // touche du bas + echelle
             else if (keyboardState.IsKeyDown(Keys.Down) && IsCollision(positionColonnePerso, positionLignePerso , layerClimb, _map))
             {
                 Animation = TypeAnimation.climb;
-                toucheBordFenetre = Position.Y + _texture.TextureRegion.Height / 2 >= Game1.ScreenHeight;
+                toucheBordFenetre = Position.Y + Texture.TextureRegion.Height / 2 >= Game1.ScreenHeight;
                 //Collision = IsCollision(positionColonnePerso, positionLignePerso + 1);
                 deplacement = Vector2.UnitY;
             }//touche de droite + pas de saut
             else if (keyboardState.IsKeyDown(Keys.Left) && jump)
             {
                 Animation = TypeAnimation.walkLeft;
-                toucheBordFenetre = Position.X - _texture.TextureRegion.Width / 2 <= 0;
+                toucheBordFenetre = Position.X - Texture.TextureRegion.Width / 2 <= 0;
                 //Collision = IsCollision(positionColonnePerso - 1, positionLignePerso);
                 deplacement = -Vector2.UnitX;
                 idleRight = false;
-                ecran = true;
             } //touche de gauche + pas de saut
             else if (keyboardState.IsKeyDown(Keys.Right) && jump)
             {
                 Animation = TypeAnimation.walkRight;
-                toucheBordFenetre = Position.X + _texture.TextureRegion.Width / 2 >= Game1.ScreenWidth;
+                toucheBordFenetre = Position.X + Texture.TextureRegion.Width / 2 >= Game1.ScreenWidth;
                 //Collision = IsCollision(positionColonnePerso + 1, positionLignePerso);
                 deplacement = Vector2.UnitX;
                 idleRight = true;
-                ecran = true;
 
             } // saut + pas de saut
             else if (keyboardState.IsKeyDown(Keys.Space) && jump)
@@ -105,16 +99,6 @@ namespace Jeux.Perso
                 if (idleRight) Animation = TypeAnimation.hitRight;
                 else Animation = TypeAnimation.hitLeft;
             }
-
-            /* // if (IsCollision(positionColonnePerso + 1, positionLignePerso, "sol"))
-              {
-                  deplacement = Vector2.Zero;
-              }*/
-
-
-
-
-
 
             //deplacement
             if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map)
@@ -153,9 +137,12 @@ namespace Jeux.Perso
 
             Position += Velocity * elapsedTime;
 
+            if (Position.Y > Game1.ScreenHeight)
+                Health = 0;
+
             //affichage
-            _texture.Play(Animation.ToString());
-            _texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            Texture.Play(Animation.ToString());
+            Texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
        public override void Update(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)

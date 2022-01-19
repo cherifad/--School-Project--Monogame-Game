@@ -8,7 +8,7 @@ namespace Jeux.Perso
 {
     public class Sprite
     {
-        protected AnimatedSprite _texture;
+        private AnimatedSprite _texture;
 
         //position
         public Vector2 Position;
@@ -51,23 +51,19 @@ namespace Jeux.Perso
             }
         }
 
-        //ajout de ce que adlen a fait
-
-        /*public List<Rectangle> HealhtBar
-{
-    get
-    {
-        return HealhtBar;
-    }
-    set
-    {
-        HealhtBar = new List<Rectangle>();
-        for (int i = 0; i < Health; i++)
+        public AnimatedSprite Texture
         {
-            HealhtBar.Add(new Rectangle(Rectangle.X + i * 5, Rectangle.Y - 1, 5, 5));
+            get
+            {
+                return this._texture;
+            }
+            set
+            {
+                this._texture = value;
+            }
         }
-    }
-}*/
+
+        //ajout de ce que adlen a fait
 
         public Sprite(AnimatedSprite texture)
         {

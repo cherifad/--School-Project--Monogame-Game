@@ -4,9 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Jeux.Perso
 {
@@ -28,24 +26,18 @@ namespace Jeux.Perso
         bool toucheBordFenetreDroite ;
         bool toucheBordFenetreGauche ;
 
-        //
         protected bool hit = false;
-        public bool _visible = true, _spam = false;
-
-        //Random random = new Random(); (pour quoi faire?)
-
-        //???????
-        int _ranX, _ranY;
+        public bool _visible = true, _spam = false, _detection = false;
 
         public void Move(GameTime gameTime, TiledMap _map, string layerCollision, string layerClimb, GraphicsDevice graphicsDevice, Sprite player)
         {
             //vitesse ennemi ( à changer j'en avais juste marre qu'il aille lentement )
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            float walkSpeed = elapsedTime * 350;
+            float walkSpeed = elapsedTime * 100;
 
             //position ennemi
             float positionColonnePerso = (Position.X / _map.TileWidth);
-            float positionLignePerso = ((Position.Y + _texture.TextureRegion.Height / 2) / _map.TileHeight);
+            float positionLignePerso = ((Position.Y + Texture.TextureRegion.Height / 2) / _map.TileHeight);
 
             //timer?
             int timer = 1;
@@ -97,20 +89,18 @@ namespace Jeux.Perso
             hit = false;
 
             //spam joueur?
-            KeyboardState keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyUp(Keys.X))
-                _spam = false;
+           
 
             */
 
 
 
             //touche bord fenetre ou plus de sol
-            if (Position.X + _texture.TextureRegion.Width / 2 <= 0 || !IsCollision(positionColonnePerso-1, positionLignePerso, layerCollision, _map))
+            if (Position.X + Texture.TextureRegion.Width / 2 <= 0 || !IsCollision(positionColonnePerso-1, positionLignePerso, layerCollision, _map))
             {
                 toucheBordFenetreGauche = true;
             }
-            else if (Position.X + _texture.TextureRegion.Width /2 >= Game1.ScreenWidth || !IsCollision(positionColonnePerso+1, positionLignePerso, layerCollision, _map))
+            else if (Position.X + Texture.TextureRegion.Width /2 >= Game1.ScreenWidth || !IsCollision(positionColonnePerso+1, positionLignePerso, layerCollision, _map))
             {
                 toucheBordFenetreDroite = true;
             }
@@ -152,28 +142,70 @@ namespace Jeux.Perso
                 deplacement = -Vector2.UnitY;
             }
 
+            int end = (int)player.Position.Y + 5;
+            int start = (int)player.Position.Y - 10;
+
+            if (Enumerable.Range(start, end).Contains(Rectangle.Y))
+                _detection = true;
+
 
             // detection echelle 
-            if (player.Position.Y > this.Position.Y) //si player en dessous d'ennemie
+
+            KeyboardState keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyUp(Keys.X))
+                _spam = false;
+
+            if (_detection)
             {
-                echelleHaut = false;
-                if (IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
+                walkSpeed = elapsedTime * 200;
+                if (Enumerable.Range(start, end).Contains(Rectangle.Y))
                 {
-                    echelleBas = true;
+                    if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyDown(Keys.X) && !_spam)
+                    {
+                        Health--;
+                        deplacement = Vector2.Zero;
+                        _spam = true;
+                    }
+                    else if (Math.Abs(Position.X - player.Position.X) < 2 && keyboardState.IsKeyUp(Keys.X) && timer > 0)
+                    {
+                        hit = true;
+                        deplacement = Vector2.Zero;
+                        timer -= (int)elapsedTime;
+                    }
+                    else if (Position.X > player.Position.X)
+                    {
+                        Animation = TypeAnimation.enemyWalkLeft;
+                        deplacement = -Vector2.UnitX;
+                    }
+                    else if (Position.X < player.Position.X)
+                    {
+                        deplacement = Vector2.UnitX;
+                        Animation = TypeAnimation.enemyWalkRight;
+                    }
                 }
-                else
-                    echelleBas = false;
-            }
-            else if (player.Position.Y < this.Position.Y) //si player au dessus d'en
-            {
-                echelleBas = false;
-                if (IsCollision(positionColonnePerso, positionLignePerso -2, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso - 1 , layerClimb, _map))
+                else if (player.Position.Y > this.Position.Y) //si player en dessous d'ennemie
                 {
-                    echelleHaut = true;
-                }
-                else
                     echelleHaut = false;
+                    if (IsCollision(positionColonnePerso, positionLignePerso, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
+                    {
+                        echelleBas = true;
+                    }
+                    else
+                        echelleBas = false;
+                }
+                else if (player.Position.Y < this.Position.Y) //si player au dessus d'en
+                {
+                    echelleBas = false;
+                    if (IsCollision(positionColonnePerso, positionLignePerso - 2, layerClimb, _map) && IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map))
+                    {
+                        echelleHaut = true;
+                    }
+                    else
+                        echelleHaut = false;
+                }
             }
+
+
             Console.WriteLine(echelleHaut);
 
 
@@ -191,7 +223,9 @@ namespace Jeux.Perso
                 Console.WriteLine(last);
 
             //deplacement
-            if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) && toucheBordFenetreGauche == false  && toucheBordFenetreDroite == false)
+            if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) 
+                && toucheBordFenetreGauche == false  
+                && toucheBordFenetreDroite == false)
             {
                 Position += walkSpeed * deplacement;
             }
@@ -207,8 +241,8 @@ namespace Jeux.Perso
             Position += Velocity * elapsedTime;
 
             //affichage
-            this._texture.Play(this.Animation.ToString());
-            this._texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+          //  this.Texture.Play(this.Animation.ToString());
+            this.Texture.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
         }
 
