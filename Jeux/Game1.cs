@@ -25,8 +25,9 @@ namespace Jeux
             public Home _screenHome;
             public Parametres _screenParametre;
             public Rules _screenRules;
-        public Level _screenGame;
-
+            public Level _screenGame;
+            public Mort _screenMort;
+            
             private Test _screentest;
 
             private Ecran _currentScreen;
@@ -51,7 +52,6 @@ namespace Jeux
             //musique
             public Song _music;
 
-        private int lives = 3;
 
         private readonly ScreenManager _screenManager;
 
@@ -102,7 +102,6 @@ namespace Jeux
             }
         }
 
-        public int Lives { get => lives; set => lives = value; }
 
         public Game1()
             {
@@ -145,6 +144,7 @@ namespace Jeux
                 _screentest = new Test(this);
                 _screenParametre = new Parametres(this);
                 _screenRules = new Rules(this);
+                _screenMort = new Mort(this);
 
 
             //  ScreenManager.LoadScreen(_screenLevel1, new FadeTransition(GraphicsDevice, Color.Black));

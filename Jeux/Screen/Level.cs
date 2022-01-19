@@ -183,8 +183,12 @@ namespace Jeux.Screen
             _renduMap[_mapEnCour].Draw();
 
             //dessin de l'ecran de mort
-           if (_dead == true)
-                _renduParametres[2].Draw();
+            if (_dead == true)
+            {
+                _game1.ScreenManager.LoadScreen(_game1._screenMort);
+                _player[0].Lives = 3;
+                _dead = false;
+            }
 
 
 
