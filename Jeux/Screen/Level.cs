@@ -16,9 +16,9 @@ namespace Jeux.Screen
     {
         private Game1 _game1; // pour récupérer la fenêtre de jeu principale
 
-        private List<TiledMap> _map = new List<TiledMap>(); 
+        private List<TiledMap> _map = new List<TiledMap>(), _parametres = new List<TiledMap>();
 
-        private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>();
+        private List<TiledMapRenderer> _renduMap = new List<TiledMapRenderer>(), _renduParametres = new List<TiledMapRenderer>();
 
         private int _mapEnCour;
 
@@ -26,7 +26,7 @@ namespace Jeux.Screen
 
         private List<Sprite> _sprites;
 
-        bool _switch = true, _control = true;
+        bool _switch = true, _control = true, _dead = false;
 
         private AnimatedSprite enemyTexture;
 
@@ -54,6 +54,12 @@ namespace Jeux.Screen
                 _map.Add(Content.Load<TiledMap>($"map/{i + 1}Eta"));
                 _renduMap.Add(new TiledMapRenderer(GraphicsDevice, _map[i]));
            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                _parametres.Add(Content.Load<TiledMap>($"map/para{i + 1}"));
+                _renduParametres.Add(new TiledMapRenderer(GraphicsDevice, _parametres[i]));
+            }
 
             var player = Content.Load<SpriteSheet>("perso.sf", new JsonContentLoader());
             var playerTexture = new AnimatedSprite(player);
@@ -100,6 +106,9 @@ namespace Jeux.Screen
                 _switch = false;
             }
 
+            if (_sprites[0].Health == 0)
+                _dead = true;
+
             Console.WriteLine(_map[_mapEnCour].ObjectLayers[0].Objects.Length);
 
             for (int i = 0; i < _sprites.Count; i++)
@@ -132,9 +141,13 @@ namespace Jeux.Screen
 
             foreach (var sprite in _sprites)
                 sprite.Draw(_game1.SpriteBatch);
-            
+
+                       
             if(_mapEnCour < 2)
                 _renduMap[_mapEnCour].Draw();
+
+            if (_dead)
+                _renduParametres[2].Draw();
 
             _game1.SpriteBatch.End();
         }

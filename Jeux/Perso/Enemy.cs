@@ -40,7 +40,7 @@ namespace Jeux.Perso
 
             Velocity.X = 0;
 
-            int end = (int)player.Position.Y + 10;
+            int end = (int)player.Position.Y + 5;
             int start = (int)player.Position.Y - 10;
 
             if (Enumerable.Range(start, end).Contains(Rectangle.Y))
@@ -93,10 +93,7 @@ namespace Jeux.Perso
             else
                 Velocity.Y = 0;
 
-            if(this.Rectangle.Intersects(player.Rectangle))
-            {
-                this.Position = player.Position;
-            }
+           
 
             Position += Velocity * elapsedTime;
 

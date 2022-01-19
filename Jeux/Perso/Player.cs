@@ -45,9 +45,9 @@ namespace Jeux.Perso
             else
                 Animation = TypeAnimation.idleLeft;
 
-            if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map)
+          /*  if (IsCollision(positionColonnePerso, positionLignePerso - 1, layerClimb, _map)
                 && !IsCollision(positionColonnePerso, positionLignePerso - 1, layerCollision, _map))
-                Animation = TypeAnimation.idleClimb;
+                Animation = TypeAnimation.idleClimb;*/
 
             //si le joueur est frappé
 
@@ -87,7 +87,8 @@ namespace Jeux.Perso
             else if (keyboardState.IsKeyDown(Keys.Space) && jump)
             {
                 Animation = TypeAnimation.jumpLeft;
-                Velocity.Y = -100f;
+                deplacement.Y = -200f;
+                jump = false;
             }
             else if (keyboardState.IsKeyDown(Keys.X))
             {
@@ -95,13 +96,8 @@ namespace Jeux.Perso
                 else Animation = TypeAnimation.hitLeft;
             }
 
-            /* // if (IsCollision(positionColonnePerso + 1, positionLignePerso, "sol"))
-              {
-                  deplacement = Vector2.Zero;
-              }*/
-
-            if (!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map)
-            || IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
+            if (//!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map)
+            IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
             {
                 Animation = TypeAnimation.idleClimb;
                 deplacement.X = 0;
@@ -110,16 +106,19 @@ namespace Jeux.Perso
             //deplacement
             if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map)
                 || !toucheBordFenetre
-                || IsCollision(positionColonnePerso, positionLignePerso - this.Rectangle.Width/2, layerClimb, _map)
+                || IsCollision(positionColonnePerso, positionLignePerso - _map.TileHeight, layerClimb, _map)
                 || IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
             {
                 Position += walkSpeed * deplacement;
             }
 
-            if (!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map)
+            /*      if (!IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map)
                || IsCollision(positionColonnePerso, positionLignePerso + 1, layerClimb, _map))
-                deplacement.X = 0;
+                deplacement.X = 0;*/
 
+
+            if (IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map) && keyboardState.IsKeyUp(Keys.Space))
+                jump = true;
 
             // gravité si pas en colision avec le sol et pas de saut
             if ((!jump || !IsCollision(positionColonnePerso, positionLignePerso, layerCollision, _map))
@@ -135,7 +134,10 @@ namespace Jeux.Perso
                 Velocity.Y = 0;
 
             if (Position.Y > Game1.ScreenHeight)
+            {
+                Health = 0;
                 Position = Vector2.Zero;
+            }
 
 
             Velocity.X = 0;
