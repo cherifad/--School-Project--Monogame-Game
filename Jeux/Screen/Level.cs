@@ -9,6 +9,7 @@ using MonoGame.Extended.Serialization;
 using Sprite = Jeux.Perso.Sprite;
 using MonoGame.Extended.Content;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Jeux.Screen
 {
@@ -29,6 +30,8 @@ namespace Jeux.Screen
 
         //kill and lives
         private int _kill = 0;
+        private double _timer;
+        bool _dead = false, _spam = false, _switch = true;
 
         public Level(Game1 game) : base(game)
         {
@@ -87,7 +90,8 @@ namespace Jeux.Screen
         public override void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-            //creation des rectangles de début et de fin + spawn des ennemis (en supprimant les ancien). Le tout juste lors des changements de map
+            _timer = Math.Round(gameTime.TotalGameTime.TotalSeconds);
+                //creation des rectangles de début et de fin + spawn des ennemis (en supprimant les ancien). Le tout juste lors des changements de map
             if (_switch)
             {
                 _start.Clear();
@@ -124,6 +128,7 @@ namespace Jeux.Screen
                 {
                     _enemys.RemoveAt(i);
                     i--;
+                    _kill++;
                 }
             }
 
@@ -194,11 +199,13 @@ namespace Jeux.Screen
             {
                 _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Kill count : {_kill}", new Vector2(20, 20), Color.Black);
                 _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Lives : {_player[0].Lives}", new Vector2(20, 40), Color.Black);
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Time : {_timer}s", new Vector2(20, 60), Color.Black);
             }
             else if (_game1._langue == Game1.Langue.French)
             {
                 _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Ennemis tues : {_kill}", new Vector2(20, 20), Color.Black);
                 _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Vies : {_player[0].Lives}", new Vector2(20, 40), Color.Black);
+                _game1.SpriteBatch.DrawString(_game1._fontLevel, $"Temps : {_timer}s", new Vector2(20, 60), Color.Black);
             }
 
             _game1.SpriteBatch.End();

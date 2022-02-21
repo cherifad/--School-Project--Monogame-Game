@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MonoGame.Content.Builder</id>
+    <version>3.7.0.9</version>
+    <authors>MonoGame Team</authors>
+    <owners>MonoGame Team</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://www.monogame.net/</projectUrl>
+    <iconUrl>https://pbs.twimg.com/profile_images/487954549441691649/O3KsHAsb_400x400.png</iconUrl>
+    <description>This package provides the MonoGame Content Builder project integration.</description>
+    <tags>monogame mgcb content builder</tags>
+    <repository url="https://github.com/MonoGame/MonoGame" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+</package>

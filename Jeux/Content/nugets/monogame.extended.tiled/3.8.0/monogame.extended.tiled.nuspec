@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MonoGame.Extended.Tiled</id>
+    <version>3.8.0</version>
+    <authors>craftworkgames</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/craftworkgames/MonoGame.Extended</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/craftworkgames/MonoGame.Extended/master/Logos/logo-nuget-128.png</iconUrl>
+    <description>Support for Tiled maps to make MonoGame more awesome. See http://www.mapeditor.org</description>
+    <tags>monogame tiled maps orthographic isometric</tags>
+    <repository url="https://github.com/craftworkgames/MonoGame.Extended" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="MonoGame.Extended.Graphics" version="3.8.0" exclude="Build,Analyzers" />
+        <dependency id="MonoGame.Extended" version="3.8.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

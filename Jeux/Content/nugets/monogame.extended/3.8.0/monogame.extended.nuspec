@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MonoGame.Extended</id>
+    <version>3.8.0</version>
+    <authors>craftworkgames</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/craftworkgames/MonoGame.Extended</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/craftworkgames/MonoGame.Extended/master/Logos/logo-nuget-128.png</iconUrl>
+    <description>It makes MonoGame more awesome.</description>
+    <tags>monogame extended pipeline bmfont tiled texture atlas input viewport fps shapes sprite</tags>
+    <repository url="https://github.com/craftworkgames/MonoGame.Extended" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <contentFiles>
+      <files include="any/netstandard2.0/CppNet.dll" buildAction="Content" />
+      <files include="any/netstandard2.0/SharpDX.D3DCompiler.dll" buildAction="Content" />
+      <files include="any/netstandard2.0/SharpDX.D3DCompiler.xml" buildAction="Content" />
+      <files include="any/netstandard2.0/SharpDX.dll" buildAction="Content" />
+      <files include="any/netstandard2.0/SharpDX.xml" buildAction="Content" />
+      <files include="any/netstandard2.0/libmojoshader_64.dll" buildAction="Content" />
+      <files include="any/netstandard2.0/mgfxc.deps.json" buildAction="Content" />
+      <files include="any/netstandard2.0/mgfxc.dll" buildAction="Content" />
+      <files include="any/netstandard2.0/mgfxc.exe" buildAction="Content" />
+      <files include="any/netstandard2.0/mgfxc.pdb" buildAction="Content" />
+      <files include="any/netstandard2.0/mgfxc.runtimeconfig.dev.json" buildAction="Content" />
+      <files include="any/netstandard2.0/mgfxc.runtimeconfig.json" buildAction="Content" />
+    </contentFiles>
+  </metadata>
+</package>

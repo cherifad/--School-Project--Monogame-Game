@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MonoGame.Extended.Content.Pipeline</id>
+    <version>3.8.0</version>
+    <authors>craftworkgames</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/craftworkgames/MonoGame.Extended</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/craftworkgames/MonoGame.Extended/master/Logos/logo-nuget-128.png</iconUrl>
+    <description>Content Pipeline importers and processors to make MonoGame more awesome.</description>
+    <tags>monogame content importer processor reader tiled texturepacker bmfont animations</tags>
+    <repository url="https://github.com/craftworkgames/MonoGame.Extended" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="MonoGame.Extended.Tiled" version="3.8.0" exclude="Build,Analyzers" />
+        <dependency id="MonoGame.Extended" version="3.8.0" exclude="Build,Analyzers" />
+        <dependency id="Autofac" version="5.2.0" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <contentFiles>
+      <files include="any/netcoreapp3.1/CppNet.dll" buildAction="Content" />
+      <files include="any/netcoreapp3.1/SharpDX.D3DCompiler.dll" buildAction="Content" />
+      <files include="any/netcoreapp3.1/SharpDX.D3DCompiler.xml" buildAction="Content" />
+      <files include="any/netcoreapp3.1/SharpDX.dll" buildAction="Content" />
+      <files include="any/netcoreapp3.1/SharpDX.xml" buildAction="Content" />
+      <files include="any/netcoreapp3.1/libmojoshader_64.dll" buildAction="Content" />
+      <files include="any/netcoreapp3.1/mgfxc.deps.json" buildAction="Content" />
+      <files include="any/netcoreapp3.1/mgfxc.dll" buildAction="Content" />
+      <files include="any/netcoreapp3.1/mgfxc.exe" buildAction="Content" />
+      <files include="any/netcoreapp3.1/mgfxc.pdb" buildAction="Content" />
+      <files include="any/netcoreapp3.1/mgfxc.runtimeconfig.dev.json" buildAction="Content" />
+      <files include="any/netcoreapp3.1/mgfxc.runtimeconfig.json" buildAction="Content" />
+    </contentFiles>
+  </metadata>
+</package>
